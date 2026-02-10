@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: postcredits-db
+    environment:
+      POSTGRES_USER: postcredits
+      POSTGRES_PASSWORD: postcredits
+      POSTGRES_DB: postcredits
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postcredits -d postcredits"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: postcredits-backend
+    environment:
+      DATABASE_URL: postgresql://postcredits:postcredits@db:5432/postcredits
+      PORT: "3000"
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
