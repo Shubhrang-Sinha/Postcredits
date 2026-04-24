@@ -1,0 +1,767 @@
+openapi: 3.0.3
+info:
+  title: Postcredits API
+  description: Unified media tracking platform for books and movies with SQL-based recommendations
+  version: 1.0.0
+  contact:
+    name: Team Postcredits
+    email: postcredits@tiet.edu.in
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:3000
+    description: Development server
+tags:
+  - name: Authentication
+    description: User registration and login
+  - name: Books
+    description: Book catalog management
+  - name: Movies
+    description: Movie catalog management
+  - name: Genres
+    description: Genre management
+  - name: Ratings
+    description: User ratings for books and movies
+  - name: Statistics
+    description: User analytics dashboard (Spotistats)
+  - name: Recommendations
+    description: Blend recommendation engine
+paths:
+  # ==================== Authentication ====================
+  /auth/register:
+    post:
+      tags:
+        - Authentication
+      summary: Register a new user
+      operationId: registerUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: user@example.com
+                password:
+                  type: string
+                  format: password
+                  example: securePassword123
+                displayName:
+                  type: string
+                  example: John Doe
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: integer
+                  email:
+                    type: string
+        '400':
+          description: Invalid input or email already exists
+
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Login user
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: integer
+                  token:
+                    type: string
+                  displayName:
+                    type: string
+        '401':
+          description: Invalid credentials
+
+  /auth/logout:
+    post:
+      tags:
+        - Authentication
+      summary: Logout user
+      operationId: logoutUser
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Logout successful
+
+  /auth/me:
+    get:
+      tags:
+        - Authentication
+      summary: Get current user info
+      operationId: getCurrentUser
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Current user details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: integer
+                  email:
+                    type: string
+                  displayName:
+                    type: string
+
+  # ==================== Books ====================
+  /books:
+    get:
+      tags:
+        - Books
+      summary: List all books
+      operationId: listBooks
+      parameters:
+        - name: genre
+          in: query
+          schema:
+            type: integer
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: List of books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+    post:
+      tags:
+        - Books
+      summary: Add a new book (admin only)
+      operationId: createBook
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookInput'
+      responses:
+        '201':
+          description: Book created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+
+  /books/{bookId}:
+    get:
+      tags:
+        - Books
+      summary: Get book by ID
+      operationId: getBook
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Book details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '404':
+          description: Book not found
+
+    put:
+      tags:
+        - Books
+      summary: Update book (admin only)
+      operationId: updateBook
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookInput'
+      responses:
+        '200':
+          description: Book updated
+
+    delete:
+      tags:
+        - Books
+      summary: Delete book (admin only)
+      operationId: deleteBook
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Book deleted
+
+  # ==================== Movies ====================
+  /movies:
+    get:
+      tags:
+        - Movies
+      summary: List all movies
+      operationId: listMovies
+      parameters:
+        - name: genre
+          in: query
+          schema:
+            type: integer
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: List of movies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+    post:
+      tags:
+        - Movies
+      summary: Add a new movie (admin only)
+      operationId: createMovie
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieInput'
+      responses:
+        '201':
+          description: Movie created
+
+  /movies/{movieId}:
+    get:
+      tags:
+        - Movies
+      summary: Get movie by ID
+      operationId: getMovie
+      parameters:
+        - name: movieId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Movie details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        '404':
+          description: Movie not found
+
+    put:
+      tags:
+        - Movies
+      summary: Update movie (admin only)
+      operationId: updateMovie
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: movieId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieInput'
+      responses:
+        '200':
+          description: Movie updated
+
+    delete:
+      tags:
+        - Movies
+      summary: Delete movie (admin only)
+      operationId: deleteMovie
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: movieId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Movie deleted
+
+  # ==================== Genres ====================
+  /genres:
+    get:
+      tags:
+        - Genres
+      summary: List all genres
+      operationId: listGenres
+      responses:
+        '200':
+          description: List of genres
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Genre'
+
+  # ==================== Ratings ====================
+  /ratings:
+    get:
+      tags:
+        - Ratings
+      summary: Get user's ratings
+      operationId: getUserRatings
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [book, movie]
+      responses:
+        '200':
+          description: User's ratings
+    post:
+      tags:
+        - Ratings
+      summary: Rate a book or movie
+      operationId: createRating
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - workId
+                - score
+              properties:
+                workId:
+                  type: integer
+                score:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+      responses:
+        '201':
+          description: Rating created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rating'
+
+  /ratings/{ratingId}:
+    put:
+      tags:
+        - Ratings
+      summary: Update a rating
+      operationId: updateRating
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: ratingId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - score
+              properties:
+                score:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+      responses:
+        '200':
+          description: Rating updated
+    delete:
+      tags:
+        - Ratings
+      summary: Delete a rating
+      operationId: deleteRating
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: ratingId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Rating deleted
+
+  # ==================== Statistics (Spotistats) ====================
+  /stats/ genres:
+    get:
+      tags:
+        - Statistics
+      summary: Get user's genre statistics
+      operationId: getGenreStats
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: type
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [book, movie]
+      responses:
+        '200':
+          description: Most watched/read genres
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    genreId:
+                      type: integer
+                    genreName:
+                      type: string
+                    count:
+                      type: integer
+
+  /stats/years:
+    get:
+      tags:
+        - Statistics
+      summary: Get user's rating statistics by year
+      operationId: getYearStats
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: type
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [book, movie]
+      responses:
+        '200':
+          description: Highest rated years
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    year:
+                      type: integer
+                    avgRating:
+                      type: number
+
+  # ==================== Recommendations ====================
+  /recommendations/blend:
+    get:
+      tags:
+        - Recommendations
+      summary: Get personalized recommendations
+      operationId: getBlendRecommendations
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [book, movie, all]
+            default: all
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Blend recommendations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    workId:
+                      type: integer
+                    title:
+                      type: string
+                    type:
+                      type: string
+                    similarity:
+                      type: number
+
+  /recommendations/similarity/{userId}:
+    get:
+      tags:
+        - Recommendations
+      summary: Calculate similarity with another user
+      operationId: getSimilarity
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Similarity score
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: integer
+                  similarityScore:
+                    type: number
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+  schemas:
+    User:
+      type: object
+      properties:
+        userId:
+          type: integer
+        email:
+          type: string
+          format: email
+        displayName:
+          type: string
+
+    Book:
+      type: object
+      properties:
+        workId:
+          type: integer
+        bookId:
+          type: integer
+        title:
+          type: string
+        author:
+          type: string
+        authorId:
+          type: integer
+        pages:
+          type: integer
+        releaseYear:
+          type: integer
+        genres:
+          type: array
+          items:
+            type: string
+        averageRating:
+          type: number
+        createdAt:
+          type: string
+          format: date-time
+
+    BookInput:
+      type: object
+      required:
+        - title
+        - authorId
+        - pages
+        - releaseYear
+        - genreIds
+      properties:
+        title:
+          type: string
+        authorId:
+          type: integer
+        pages:
+          type: integer
+        releaseYear:
+          type: integer
+        genreIds:
+          type: array
+          items:
+            type: integer
+
+    Movie:
+      type: object
+      properties:
+        workId:
+          type: integer
+        movieId:
+          type: integer
+        title:
+          type: string
+        director:
+          type: string
+        directorId:
+          type: integer
+        duration:
+          type: integer
+        releaseYear:
+          type: integer
+        genres:
+          type: array
+          items:
+            type: string
+        averageRating:
+          type: number
+        createdAt:
+          type: string
+          format: date-time
+
+    MovieInput:
+      type: object
+      required:
+        - title
+        - directorId
+        - duration
+        - releaseYear
+        - genreIds
+      properties:
+        title:
+          type: string
+        directorId:
+          type: integer
+        duration:
+          type: integer
+        releaseYear:
+          type: integer
+        genreIds:
+          type: array
+          items:
+            type: integer
+
+    Genre:
+      type: object
+      properties:
+        genreId:
+          type: integer
+        name:
+          type: string
+
+    Rating:
+      type: object
+      properties:
+        ratingId:
+          type: integer
+        userId:
+          type: integer
+        workId:
+          type: integer
+        workType:
+          type: string
+        score:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    Creator:
+      type: object
+      properties:
+        creatorId:
+          type: integer
+        name:
+          type: string
+        type:
+          type: string
+          enum: [author, director]

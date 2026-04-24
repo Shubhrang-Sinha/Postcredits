@@ -7,17 +7,13 @@ import { genreRoutes } from './routes/genres.js';
 import { ratingRoutes } from './routes/ratings.js';
 import { statsRoutes } from './routes/stats.js';
 import { recommendationRoutes } from './routes/recommendations.js';
-
 const app = new Hono();
-
-app.get('/', (c) => c.json({ 
-  name: 'Postcredits API', 
-  version: '1.0.0',
-  docs: '/openapi.yaml'
+app.get('/', (c) => c.json({
+    name: 'Postcredits API',
+    version: '1.0.0',
+    docs: '/openapi.yaml'
 }));
-
 app.get('/health', (c) => c.json({ status: 'ok' }));
-
 // Mount routes
 authRoutes(app);
 bookRoutes(app);
@@ -26,10 +22,9 @@ genreRoutes(app);
 ratingRoutes(app);
 statsRoutes(app);
 recommendationRoutes(app);
-
 serve({
-  fetch: app.fetch,
-  port: parseInt(process.env.PORT || '3000'),
+    fetch: app.fetch,
+    port: parseInt(process.env.PORT || '3000'),
 }, (info) => {
-  console.log(`Server running on http://localhost:${info.port}`);
+    console.log(`Server running on http://localhost:${info.port}`);
 });
