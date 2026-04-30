@@ -1,5 +1,6 @@
 import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
+import { cors } from 'hono/cors';
 import { authRoutes } from './routes/auth.js';
 import { bookRoutes } from './routes/books.js';
 import { movieRoutes } from './routes/movies.js';
@@ -10,6 +11,10 @@ import { recommendationRoutes } from './routes/recommendations.js';
 import { creatorRoutes } from './routes/creators.js';
 
 const app = new Hono();
+
+app.use('/*', cors({
+  origin: '*',
+}));
 
 app.get('/', (c) => c.json({ 
   name: 'Postcredits API', 
