@@ -30,11 +30,9 @@
 3. Users table with secure password storage
 4. Login/logout session works
 
-**Deliverables:**
-- ER Diagram (E-R model)
-- DDL scripts (CREATE TABLE)
-- User registration procedure
-- Login procedure
+**Plans:**
+- [ ] 01-01-PLAN.md — ER diagram (mermaid)
+- [ ] 01-02-PLAN.md — Authentication implementation
 
 ---
 
