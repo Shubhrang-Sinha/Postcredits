@@ -93,7 +93,7 @@ async function generateBlendRecommendations(userId: number, workType: string, li
   
   // Get works that similar users rated highly but current user hasn't
   const recommendations = await query(`
-    SELECT w.work_id, w.title, w.work_type, COALESCE(war.average_rating, 0) as average_rating,
+    SELECT w.work_id as workId, w.title, w.work_type as type, COALESCE(war.average_rating, 0) as averageRating,
            su.similarity
     FROM works w
     JOIN ratings r ON w.work_id = r.work_id

@@ -5,14 +5,14 @@ import { authMiddleware, getUser } from '../middleware/auth.js';
 export function genreRoutes(app: Hono) {
   // List genres
   app.get('/genres', async (c) => {
-    const genres = await query('SELECT genre_id, name FROM genres ORDER BY name');
+    const genres = await query('SELECT genre_id as genreId, name FROM genres ORDER BY name');
     return c.json(genres);
   });
   
   // Get genre by ID
   app.get('/genres/:genreId', async (c) => {
     const genreId = parseInt(c.req.param('genreId'));
-    const genre = await queryOne('SELECT genre_id, name FROM genres WHERE genre_id = ?', [genreId]);
+    const genre = await queryOne('SELECT genre_id as genreId, name FROM genres WHERE genre_id = ?', [genreId]);
     
     if (!genre) {
       return c.json({ error: 'Genre not found' }, 404);

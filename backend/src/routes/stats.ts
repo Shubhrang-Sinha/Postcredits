@@ -18,9 +18,10 @@ export function statsRoutes(app: Hono) {
     
     const stats = await query(`
       SELECT 
-        g.name AS genre_name,
+        g.genre_id as genreId,
+        g.name AS genreName,
         COUNT(*) AS count,
-        AVG(r.score) AS avg_rating
+        AVG(r.score) AS avgRating
       FROM ratings r
       JOIN works w ON r.work_id = w.work_id
       JOIN work_genres wg ON w.work_id = wg.work_id
@@ -28,7 +29,7 @@ export function statsRoutes(app: Hono) {
       WHERE r.user_id = ? 
       AND w.work_type = ?
       GROUP BY g.genre_id, g.name
-      ORDER BY count DESC, avg_rating DESC
+      ORDER BY count DESC, avgRating DESC
     `, [user.userId, type]);
     
     return c.json(stats);
@@ -51,13 +52,13 @@ export function statsRoutes(app: Hono) {
       SELECT 
         w.release_year AS year,
         COUNT(*) AS count,
-        AVG(r.score) AS avg_rating
+        AVG(r.score) AS avgRating
       FROM ratings r
       JOIN works w ON r.work_id = w.work_id
       WHERE r.user_id = ? 
       AND w.work_type = ?
       GROUP BY w.release_year
-      ORDER BY avg_rating DESC, count DESC
+      ORDER BY avgRating DESC, count DESC
     `, [user.userId, type]);
     
     return c.json(stats);

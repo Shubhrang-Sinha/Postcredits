@@ -38,7 +38,7 @@ export function authRoutes(app: Hono) {
         { expiresIn: EXPIRY }
       );
       
-      return c.json({ userId: result.insertId, token }, 201);
+      return c.json({ userId: result.insertId, email, token }, 201);
     } catch (err: any) {
       if (err.code === 'ER_DUP_ENTRY') {
         return c.json({ error: 'Email already exists' }, 400);
