@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import GenreFilter from './GenreFilter';
 
 interface Genre {
-  genre_id: number;
+  genreId: number;
   name: string;
 }
 

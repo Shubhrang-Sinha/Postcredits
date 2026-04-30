@@ -33,5 +33,18 @@ services:
       db:
         condition: service_healthy
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: postcredits-frontend
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:3000
+      PORT: "3001"
+    ports:
+      - "3001:3001"
+    depends_on:
+      - backend
+
 volumes:
   mysql_data:

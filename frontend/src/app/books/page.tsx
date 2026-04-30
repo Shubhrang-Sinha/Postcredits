@@ -1,23 +1,21 @@
-import api from '@/lib/api';
 import MediaCard from '@/components/MediaCard';
-import { Flex, Heading, Text, Box } from '@radix-ui/themes';
 import GenreFilterServer from './GenreFilterServer';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
 interface Book {
-  book_id: number;
-  work_id: number;
+  bookId: number;
+  workId: number;
   title: string;
-  release_year: number;
+  releaseYear: number;
   pages: number;
-  author_name: string;
-  average_rating: number;
+  author: string;
+  averageRating: number;
   genres: string[];
 }
 
 interface Genre {
-  genre_id: number;
+  genreId: number;
   name: string;
 }
 
@@ -58,30 +56,30 @@ export default async function BooksPage({
   const bookGenres = genres.filter((g: Genre) => g.name.toLowerCase() !== 'movie');
 
   return (
-    <main style={{ maxWidth: 1400, margin: '0 auto', padding: '24px' }}>
-      <Heading size="8" mb="4" className="text-white">Books</Heading>
+    <main className="max-w-7xl mx-auto px-4 md:px-8 py-6">
+      <h1 className="text-3xl font-bold text-white mb-6">Books</h1>
       
       <GenreFilterServer genres={bookGenres} />
       
       {books.length === 0 ? (
-        <Box className="p-8 text-center text-gray-400">
-          <Text>No books found</Text>
-        </Box>
+        <div className="p-8 text-center text-[#bccbb9]">
+          No books found
+        </div>
       ) : (
-        <Flex gap="4" wrap="wrap">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {books.map((book) => (
             <MediaCard
-              key={book.book_id}
-              id={book.work_id}
+              key={book.bookId}
+              id={book.workId}
               title={book.title}
-              year={book.release_year}
-              rating={book.average_rating}
+              year={book.releaseYear}
+              rating={book.averageRating}
               type="book"
-              creator={book.author_name}
+              creator={book.author}
               genres={book.genres}
             />
           ))}
-        </Flex>
+        </div>
       )}
     </main>
   );
