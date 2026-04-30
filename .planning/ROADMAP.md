@@ -195,5 +195,41 @@
 
 ---
 
+---
+
+## Phase 6: Frontend Migration
+
+**Goal:** Migrate frontend from @radix-ui/themes to Tailwind + Radix primitives
+
+**Requirements:**
+
+- UI-01: Remove @radix-ui/themes dependency
+- UI-02: Implement semantic color tokens in Tailwind
+- UI-03: Add interaction state system
+- UI-04: Expand typography scale
+- UI-05: Define layout rules
+- UI-06: Create component contracts
+- UI-07: Migrate authentication to httpOnly cookies
+- UI-08: Fix API base URL for production
+- UI-09: Add accessibility requirements
+
+**Success Criteria:**
+
+1. @radix-ui/themes fully removed
+2. All components use Tailwind + Radix primitives
+3. Semantic tokens implemented
+4. Auth security improved
+5. 6/6 UI dimensions verified
+
+**Plans:**
+
+- [ ] 06-01-PLAN.md — Foundation: Remove @radix-ui/themes, configure semantic tokens
+- [ ] 06-02-PLAN.md — Core Components: Header, MediaCard, GenreFilter
+- [ ] 06-03-PLAN.md — Complex Components: StarRating, Carousel, StatsChart, API
+- [ ] 06-04-PLAN.md — Auth & Accessibility: Tradeoffs documentation, a11y verification
+
+---
+
 _Roadmap: 2026-04-30_
+_Phases: 6 (v1 + UI migration)_
 _All v1 requirements covered ✓_
