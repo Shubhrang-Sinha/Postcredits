@@ -92,6 +92,9 @@
 - Trigger: `trg_update_avg_rating`
 - COMMIT/ROLLBACK handling
 
+**Plans:**
+- [x] 03-01-PLAN.md — Rate media procedure ✓
+
 ---
 
 ## Phase 4: Discovery Engine
