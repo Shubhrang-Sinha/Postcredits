@@ -123,6 +123,9 @@
 - Procedure: `proc_get_spotistats`
 - Spotistats dashboard queries
 
+**Plans:**
+- [x] 04-01-PLAN.md — Verify discovery engine components ✓
+
 ---
 
 ## Execution Notes
