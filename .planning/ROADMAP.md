@@ -158,12 +158,12 @@
 5. Stats charts render
 
 **Plans:**
-- [ ] 05-01-PLAN.md — Initialize Next.js project
-- [ ] 05-02-PLAN.md — Auth pages (login/register)
-- [ ] 05-03-PLAN.md — Browse pages (books/movies)
-- [ ] 05-04-PLAN.md — Media detail & rating
-- [ ] 05-05-PLAN.md — Home & recommendations
-- [ ] 05-06-PLAN.md — Spotistats dashboard
+- [x] 05-01-PLAN.md — Initialize Next.js project
+- [x] 05-02-PLAN.md — Auth pages (login/register)
+- [x] 05-03-PLAN.md — Browse pages (books/movies)
+- [x] 05-04-PLAN.md — Media detail & rating
+- [x] 05-05-PLAN.md — Home & recommendations
+- [x] 05-06-PLAN.md — Spotistats dashboard
 
 ---
 
