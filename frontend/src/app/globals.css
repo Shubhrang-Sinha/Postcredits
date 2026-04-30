@@ -2,9 +2,19 @@
 
 :root {
   --background: #191111;
-  --foreground: #ffffff;
+  --foreground: #f0dfde;
   --accent-green: #53e076;
   --accent-spotify: #1db954;
+  --surface: #191111;
+  --surface-container: #261d1d;
+  --surface-container-high: #312828;
+  --surface-variant: #3c3232;
+  --on-surface: #f0dfde;
+  --on-surface-variant: #bccbb9;
+  --primary: #53e076;
+  --primary-container: #1db954;
+  --outline: #869585;
+  --outline-variant: #3d4a3d;
 }
 
 @theme inline {
@@ -15,5 +25,45 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Material Symbols */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface-variant);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--outline);
+}
+
+/* No scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Input autofill fix */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: white;
+  -webkit-box-shadow: 0 0 0px 1000px #191111 inset;
+  transition: background-color 5000s ease-in-out 0s;
 }
