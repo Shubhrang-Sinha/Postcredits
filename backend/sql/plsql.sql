@@ -189,6 +189,71 @@ BEGIN
     ORDER BY avg_rating DESC, count DESC;
 END$$
 
+-- ==================== Procedure: Rate Media ====================
+-- Allows user to rate a book or movie (1-5 scale)
+-- Handles both new ratings and updates (upsert)
+-- Uses transactions for data consistency
+CREATE PROCEDURE rate_media(
+    IN p_user_id INT,
+    IN p_work_id INT,
+    IN p_score INT,
+    OUT p_rating_id INT,
+    OUT p_message VARCHAR(100)
+)
+BEGIN
+    DECLARE v_error BOOLEAN DEFAULT FALSE;
+    
+    -- Validate score range
+    IF p_score < 1 OR p_score > 5 THEN
+        SET p_message = 'Score must be between 1 and 5';
+        SET v_error = TRUE;
+    END IF;
+    
+    -- Check if work exists
+    IF NOT EXISTS (SELECT 1 FROM works WHERE work_id = p_work_id) AND NOT v_error THEN
+        SET p_message = 'Work not found';
+        SET v_error = TRUE;
+    END IF;
+    
+    -- Check if user exists
+    IF NOT EXISTS (SELECT 1 FROM users WHERE user_id = p_user_id) AND NOT v_error THEN
+        SET p_message = 'User not found';
+        SET v_error = TRUE;
+    END IF;
+    
+    -- If validation passed, proceed with rating
+    IF NOT v_error THEN
+        -- Start transaction
+        START TRANSACTION;
+        
+        -- Check for existing rating (upsert logic)
+        IF EXISTS (SELECT 1 FROM ratings WHERE user_id = p_user_id AND work_id = p_work_id) THEN
+            -- Update existing rating
+            UPDATE ratings 
+            SET score = p_score, updated_at = NOW() 
+            WHERE user_id = p_user_id AND work_id = p_work_id;
+            
+            SELECT rating_id INTO p_rating_id 
+            FROM ratings 
+            WHERE user_id = p_user_id AND work_id = p_work_id;
+            
+            SET p_message = 'Rating updated';
+        ELSE
+            -- Insert new rating
+            INSERT INTO ratings (user_id, work_id, score) VALUES (p_user_id, p_work_id, p_score);
+            SET p_rating_id = LAST_INSERT_ID();
+            SET p_message = 'Rating created';
+        END IF;
+        
+        COMMIT;
+    ELSE
+        SET p_rating_id = NULL;
+    END IF;
+    
+    -- Note: Average rating is automatically calculated via the work_avg_rating view
+    -- The trigger logs the rating change to audit table for tracking
+END$$
+
 -- ==================== Trigger: Update Average Rating ====================
 -- Automatically updates average rating when new rating is added
 CREATE TRIGGER trg_update_avg_rating
