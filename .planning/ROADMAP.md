@@ -31,8 +31,8 @@
 4. Login/logout session works
 
 **Plans:**
-- [ ] 01-01-PLAN.md — ER diagram (mermaid)
-- [ ] 01-02-PLAN.md — Authentication implementation
+- [x] 01-01-PLAN.md — ER diagram (mermaid) ✓
+- [x] 01-02-PLAN.md — Authentication implementation ✓
 
 ---
 
