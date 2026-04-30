@@ -1,8 +1,7 @@
 import Link from 'next/link';
-import { Button } from '@radix-ui/themes';
 
 interface Genre {
-  genre_id: number;
+  genreId: number;
   name: string;
 }
 
@@ -14,15 +13,15 @@ export default function GenreFilterServer({ genres }: GenreFilterServerProps) {
   return (
     <div className="flex flex-wrap gap-2 mb-6">
       <Link href="/books" className="no-underline">
-        <Button variant="outline" size="1">
+        <span className="px-4 py-2 rounded-full text-sm font-medium bg-[#1db954] text-[#003914]">
           All
-        </Button>
+        </span>
       </Link>
       {genres.map((genre) => (
-        <Link key={genre.genre_id} href={`/books?genre=${genre.genre_id}`} className="no-underline">
-          <Button variant="outline" size="1">
+        <Link key={genre.genreId} href={`/books?genre=${genre.genreId}`} className="no-underline">
+          <span className="px-4 py-2 rounded-full text-sm font-medium bg-[#261d1d]/60 text-[#bccbb9] border border-[#3d4a3d]/30 hover:bg-[#312828] transition-colors">
             {genre.name}
-          </Button>
+          </span>
         </Link>
       ))}
     </div>
