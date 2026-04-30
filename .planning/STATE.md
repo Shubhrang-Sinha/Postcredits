@@ -7,7 +7,7 @@
 See: .planning/PROJECT.md
 
 **Core value:** Users discover new books and movies through taste-similarity recommendations computed entirely in MySQL
-**Current focus:** All phases complete
+**Current focus:** Phase 5: Frontend
 
 ## Phase Progress
 
@@ -17,6 +17,7 @@ See: .planning/PROJECT.md
 | 2: Media Catalog | ✓ Complete | Books, movies, creators, genres CRUD |
 | 3: Ratings & Triggers | ✓ Complete | Rating system, rate_media procedure, triggers |
 | 4: Discovery Engine | ✓ Complete | Blend recommendations, Spotistats |
+| 5: Frontend | Context Ready | Next.js + Tailwind + Radix + Server Components |
 
 ## Active Context
 
@@ -26,10 +27,11 @@ See: .planning/PROJECT.md
 
 ## Next Action
 
-All phases complete! Project ready for demo.
-- All 25 requirements covered
-- PL/SQL procedures, functions, cursors, triggers implemented
-- API endpoints for auth, books, movies, creators, genres, ratings, recommendations, stats
+Start Phase 5: Frontend
+- Initialize Next.js project with create-next-app
+- Set up Tailwind CSS + @radix-ui/themes
+- Build auth pages, browse pages, detail pages
+- Connect to backend API at localhost:3000
 
 ---
 

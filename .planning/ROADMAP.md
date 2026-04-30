@@ -1,7 +1,7 @@
 # Roadmap: Postcredits
 
 **Created:** 2026-04-24
-**Phases:** 4 | **Requirements:** 25 | **All v1 covered:** ✓
+**Phases:** 5 | **Requirements:** 34 | **All v1 covered:** ✓
 
 ## Phase Summary
 
@@ -11,6 +11,7 @@
 | 2 | Media Catalog | Books, movies, genres | BOOK-01 to GENR-03 | 12 |
 | 3 | Ratings & Triggers | Rating system, triggers | RATE-01 to RATE-05 | 5 |
 | 4 | Discovery Engine | Blend recommendations, stats | STAT-01 to BLND-04 | 9 |
+| 5 | Frontend | Next.js MVP UI | FE-01 to FE-09 | 9 |
 
 ---
 
@@ -128,13 +129,52 @@
 
 ---
 
+## Phase 5: Frontend
+
+**Goal:** Next.js frontend with full MVP UI
+
+**Requirements:**
+- FE-01: User can register via UI
+- FE-02: User can login/logout
+- FE-03: Browse books with genre filter
+- FE-04: Browse movies with genre filter
+- FE-05: View media detail page
+- FE-06: Rate media (1-5 stars)
+- FE-07: View watchlist (rated items)
+- FE-08: View recommendations on home
+- FE-09: View Spotistats (genre/year charts)
+
+**Tech Stack:**
+- Next.js 14 (App Router)
+- Tailwind CSS + @radix-ui/themes
+- Server Components with fetch
+- JWT stored in localStorage
+
+**Success Criteria:**
+1. Login/Register pages work
+2. Browse pages show books/movies
+3. Rating submission works
+4. Recommendations display
+5. Stats charts render
+
+**Plans:**
+- [ ] 05-01-PLAN.md — Initialize Next.js project
+- [ ] 05-02-PLAN.md — Auth pages (login/register)
+- [ ] 05-03-PLAN.md — Browse pages (books/movies)
+- [ ] 05-04-PLAN.md — Media detail & rating
+- [ ] 05-05-PLAN.md — Home & recommendations
+- [ ] 05-06-PLAN.md — Spotistats dashboard
+
+---
+
 ## Execution Notes
 
 - **Phase 1-2:** Should complete first (database design)
 - **Phase 3:** Requires Phase 1-2 (ratings need users + works)
 - **Phase 4:** Requires all prior phases
+- **Phase 5:** Requires Phase 1-4 (backend must be running)
 
 ---
 
-*Roadmap: 2026-04-24*
+*Roadmap: 2026-04-30*
 *All v1 requirements covered ✓*
