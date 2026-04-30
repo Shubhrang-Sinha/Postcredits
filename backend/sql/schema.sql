@@ -14,19 +14,6 @@ CREATE TABLE users (
 
 CREATE INDEX idx_users_email ON users(email);
 
--- ==================== Sessions ====================
-CREATE TABLE sessions (
-    session_id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT NOT NULL,
-    token VARCHAR(512) NOT NULL UNIQUE,
-    expires_at TIMESTAMP NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
-
-CREATE INDEX idx_sessions_token ON sessions(token);
-CREATE INDEX idx_sessions_user ON sessions(user_id);
-
 -- ==================== Creators (Authors & Directors) ====================
 CREATE TABLE creators (
     creator_id INT PRIMARY KEY AUTO_INCREMENT,

@@ -32,11 +32,10 @@ export function authRoutes(app: Hono) {
         [email, passwordHash, displayName || email.split('@')[0]]
       );
       
-      const token = jwt.sign({ userId: result.insertId, email }, JWT_SECRET, { expiresIn: EXPIRY });
-      
-      await execute(
-        'INSERT INTO sessions (user_id, token, expires_at) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 7 DAY))',
-        [result.insertId, token]
+      const token = jwt.sign(
+        { userId: result.insertId, email, role: 'user' },
+        JWT_SECRET,
+        { expiresIn: EXPIRY }
       );
       
       return c.json({ userId: result.insertId, token }, 201);
@@ -68,24 +67,17 @@ export function authRoutes(app: Hono) {
       return c.json({ error: 'Invalid credentials' }, 401);
     }
     
-    const token = jwt.sign({ userId: user.user_id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: EXPIRY });
-    
-    await execute(
-      'INSERT INTO sessions (user_id, token, expires_at) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 7 DAY))',
-      [user.user_id, token]
+    const token = jwt.sign(
+      { userId: user.user_id, email: user.email, role: user.role },
+      JWT_SECRET,
+      { expiresIn: EXPIRY }
     );
     
     return c.json({ userId: user.user_id, token, displayName: user.display_name });
   });
   
-  // Logout
+  // Logout (stateless - just confirm)
   app.post('/auth/logout', async (c) => {
-    const token = c.req.header('Authorization')?.replace('Bearer ', '');
-    
-    if (token) {
-      await execute('DELETE FROM sessions WHERE token = ?', [token]);
-    }
-    
     return c.json({ success: true });
   });
   
@@ -99,7 +91,10 @@ export function authRoutes(app: Hono) {
     
     try {
       const decoded = jwt.verify(token, JWT_SECRET) as { userId: number; email: string; role: string };
-      const user = await queryOne('SELECT user_id, email, display_name, role FROM users WHERE user_id = ?', [decoded.userId]) as UserRecord | null;
+      const user = await queryOne(
+        'SELECT user_id, email, display_name, role FROM users WHERE user_id = ?',
+        [decoded.userId]
+      ) as UserRecord | null;
       
       if (!user) {
         return c.json({ error: 'User not found' }, 404);
