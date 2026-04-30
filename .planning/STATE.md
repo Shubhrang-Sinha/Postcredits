@@ -1,19 +1,19 @@
 # Project State: Postcredits
 
-**Last Updated:** 2026-04-24
+**Last Updated:** 2026-04-30
 
 ## Project Reference
 
 See: .planning/PROJECT.md
 
 **Core value:** Users discover new books and movies through taste-similarity recommendations computed entirely in MySQL
-**Current focus:** Phase 1: Identity & Schema
+**Current focus:** Phase 1: Identity & Schema (context gathered)
 
 ## Phase Progress
 
 | Phase | Status | Notes |
 |-------|--------|-------|
-| 1: Identity & Schema | Not Started | ER diagram, user auth |
+| 1: Identity & Schema | Context Gathered | Stateless JWT, mermaid ER in README |
 | 2: Media Catalog | Not Started | Books, movies, genres |
 | 3: Ratings & Triggers | Not Started | Rating system, triggers |
 | 4: Discovery Engine | Not Started | Blend recommendations |
