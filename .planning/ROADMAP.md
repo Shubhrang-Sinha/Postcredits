@@ -63,6 +63,10 @@
 - Genres, Work_Genres tables
 - Insert/update procedures
 
+**Plans:**
+- [x] 02-01-PLAN.md — Creator management API ✓
+- [x] 02-02-PLAN.md — Genre management API ✓
+
 ---
 
 ## Phase 3: Ratings & Triggers
