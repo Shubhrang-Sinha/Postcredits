@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useRouter, useSearchParams } from 'next/navigation';
-import GenreFilter from './GenreFilter';
+import { useRouter, useSearchParams } from "next/navigation";
+import GenreFilter from "./GenreFilter";
 
 interface Genre {
   genreId: number;
@@ -10,17 +10,20 @@ interface Genre {
 
 interface GenreFilterClientProps {
   genres: Genre[];
-  excludeType?: 'movie' | 'book';
+  excludeType?: "movie" | "book";
 }
 
-export default function GenreFilterClient({ genres, excludeType }: GenreFilterClientProps) {
+export default function GenreFilterClient({
+  genres,
+  excludeType,
+}: GenreFilterClientProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const currentGenre = searchParams.get('genre');
+  const currentGenre = searchParams.get("genre");
   const selectedGenre = currentGenre ? parseInt(currentGenre) : null;
 
-  const filteredGenres = excludeType 
-    ? genres.filter(g => g.name.toLowerCase() !== excludeType)
+  const filteredGenres = excludeType
+    ? genres.filter((g) => g.name.toLowerCase() !== excludeType)
     : genres;
 
   const handleGenreSelect = (genreId: number | null) => {

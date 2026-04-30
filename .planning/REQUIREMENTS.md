@@ -58,48 +58,50 @@
 
 ## Out of Scope
 
-| Feature | Reason |
-|---------|--------|
-| Real-time chat | High complexity, not core |
-| OAuth login | Email/password sufficient |
-| Mobile app | Web-first only |
-| Video/content streaming | Out of scope |
+| Feature                 | Reason                    |
+| ----------------------- | ------------------------- |
+| Real-time chat          | High complexity, not core |
+| OAuth login             | Email/password sufficient |
+| Mobile app              | Web-first only            |
+| Video/content streaming | Out of scope              |
 
 ## Traceability
 
-| Requirement | Phase | Status |
-|-------------|-------|--------|
-| IDM-01 | Phase 1 | Pending |
-| IDM-02 | Phase 1 | Pending |
-| IDM-03 | Phase 1 | Pending |
-| IDM-04 | Phase 1 | Pending |
-| BOOK-01 | Phase 2 | Pending |
-| BOOK-02 | Phase 2 | Pending |
-| BOOK-03 | Phase 2 | Pending |
-| MOV-01 | Phase 2 | Pending |
-| MOV-02 | Phase 2 | Pending |
-| MOV-03 | Phase 2 | Pending |
-| GENR-01 | Phase 2 | Pending |
-| GENR-02 | Phase 2 | Pending |
-| GENR-03 | Phase 2 | Pending |
-| RATE-01 | Phase 3 | Pending |
-| RATE-02 | Phase 3 | Pending |
-| RATE-03 | Phase 3 | Pending |
-| RATE-04 | Phase 3 | Pending |
-| RATE-05 | Phase 3 | Pending |
-| STAT-01 | Phase 4 | Pending |
-| STAT-02 | Phase 4 | Pending |
-| STAT-03 | Phase 4 | Pending |
-| BLND-01 | Phase 4 | Pending |
-| BLND-02 | Phase 4 | Pending |
-| BLND-03 | Phase 4 | Pending |
-| BLND-04 | Phase 4 | Pending |
+| Requirement | Phase   | Status  |
+| ----------- | ------- | ------- |
+| IDM-01      | Phase 1 | Pending |
+| IDM-02      | Phase 1 | Pending |
+| IDM-03      | Phase 1 | Pending |
+| IDM-04      | Phase 1 | Pending |
+| BOOK-01     | Phase 2 | Pending |
+| BOOK-02     | Phase 2 | Pending |
+| BOOK-03     | Phase 2 | Pending |
+| MOV-01      | Phase 2 | Pending |
+| MOV-02      | Phase 2 | Pending |
+| MOV-03      | Phase 2 | Pending |
+| GENR-01     | Phase 2 | Pending |
+| GENR-02     | Phase 2 | Pending |
+| GENR-03     | Phase 2 | Pending |
+| RATE-01     | Phase 3 | Pending |
+| RATE-02     | Phase 3 | Pending |
+| RATE-03     | Phase 3 | Pending |
+| RATE-04     | Phase 3 | Pending |
+| RATE-05     | Phase 3 | Pending |
+| STAT-01     | Phase 4 | Pending |
+| STAT-02     | Phase 4 | Pending |
+| STAT-03     | Phase 4 | Pending |
+| BLND-01     | Phase 4 | Pending |
+| BLND-02     | Phase 4 | Pending |
+| BLND-03     | Phase 4 | Pending |
+| BLND-04     | Phase 4 | Pending |
 
 **Coverage:**
+
 - v1 requirements: 25 total
 - Mapped to phases: 25
 - Unmapped: 0 ✓
 
 ---
-*Requirements defined: 2026-04-24*
-*Last updated: 2026-04-24 after research*
+
+_Requirements defined: 2026-04-24_
+_Last updated: 2026-04-24 after research_

@@ -11,10 +11,10 @@
 
 ## Session Strategy
 
-| Option | Description | Selected |
-|--------|-------------|----------|
-| Server-side sessions | Tokens stored in sessions table, validated on each request | |
-| Stateless JWT | Token contains user info, no server state | ✓ |
+| Option               | Description                                                | Selected |
+| -------------------- | ---------------------------------------------------------- | -------- |
+| Server-side sessions | Tokens stored in sessions table, validated on each request |          |
+| Stateless JWT        | Token contains user info, no server state                  | ✓        |
 
 **User's choice:** Stateless JWT — "I want this to be a fast finished MVP"
 **Notes:** Existing auth.ts already implements stateless JWT
@@ -23,10 +23,10 @@
 
 ## Bcrypt Rounds
 
-| Option | Description | Selected |
-|--------|-------------|----------|
-| 10 rounds | Standard, fast | ✓ |
-| 12 rounds | More secure, slower | |
+| Option    | Description         | Selected |
+| --------- | ------------------- | -------- |
+| 10 rounds | Standard, fast      | ✓        |
+| 12 rounds | More secure, slower |          |
 
 **User's choice:** Default (10 rounds) — fast for MVP
 **Notes:** OK with standard bcrypt
@@ -35,11 +35,11 @@
 
 ## ER Diagram Format
 
-| Option | Description | Selected |
-|--------|-------------|----------|
-| PDF | External document | |
-| draw.io | External diagrams | |
-| Mermaid in README | Inline, version-controlled | ✓ |
+| Option            | Description                | Selected |
+| ----------------- | -------------------------- | -------- |
+| PDF               | External document          |          |
+| draw.io           | External diagrams          |          |
+| Mermaid in README | Inline, version-controlled | ✓        |
 
 **User's choice:** Mermaid in readme — explicitly stated "ER diagram should be in mermaid in the readme"
 **Notes:** Will go in README.md
@@ -48,10 +48,10 @@
 
 ## Admin User Handling
 
-| Option | Description | Selected |
-|--------|-------------|----------|
-| Separate admin table | More flexible, more complex | |
-| Role column in users | Simple ENUM | ✓ |
+| Option               | Description                 | Selected |
+| -------------------- | --------------------------- | -------- |
+| Separate admin table | More flexible, more complex |          |
+| Role column in users | Simple ENUM                 | ✓        |
 
 **User's choice:** Hardcoded admin — "hardcoded admin" preference
 **Notes:** Simple role ENUM('user', 'admin'), first user manually set as admin
@@ -61,6 +61,7 @@
 ## MVP Scope
 
 **Summary of discussion:**
+
 - User emphasized: "fast finished MVP with a working demo"
 - Not aiming for production-ready
 - Skip: email verification, password reset, OAuth

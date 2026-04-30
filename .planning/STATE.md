@@ -11,13 +11,13 @@ See: .planning/PROJECT.md
 
 ## Phase Progress
 
-| Phase | Status | Notes |
-|-------|--------|-------|
-| 1: Identity & Schema | ✓ Complete | ER diagram, stateless JWT, 3NF schema |
-| 2: Media Catalog | ✓ Complete | Books, movies, creators, genres CRUD |
+| Phase                 | Status     | Notes                                         |
+| --------------------- | ---------- | --------------------------------------------- |
+| 1: Identity & Schema  | ✓ Complete | ER diagram, stateless JWT, 3NF schema         |
+| 2: Media Catalog      | ✓ Complete | Books, movies, creators, genres CRUD          |
 | 3: Ratings & Triggers | ✓ Complete | Rating system, rate_media procedure, triggers |
-| 4: Discovery Engine | ✓ Complete | Blend recommendations, Spotistats |
-| 5: Frontend | ✓ Complete | Next.js + Tailwind + Radix - 6 plans executed |
+| 4: Discovery Engine   | ✓ Complete | Blend recommendations, Spotistats             |
+| 5: Frontend           | ✓ Complete | Next.js + Tailwind + Radix - 6 plans executed |
 
 ## Active Context
 

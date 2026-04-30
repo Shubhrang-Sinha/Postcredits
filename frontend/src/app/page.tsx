@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useAuth } from '@/lib/auth-context';
-import MediaCard from '@/components/MediaCard';
-import RecommendationCarousel from '@/components/RecommendationCarousel';
-import Link from 'next/link';
+import { useEffect, useState } from "react";
+import { useAuth } from "@/lib/auth-context";
+import MediaCard from "@/components/MediaCard";
+import RecommendationCarousel from "@/components/RecommendationCarousel";
+import Link from "next/link";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
 interface MediaItem {
   movieId?: number;
@@ -48,11 +48,11 @@ function PublicHome() {
           fetch(`${API_BASE_URL}/movies?limit=6`),
           fetch(`${API_BASE_URL}/books?limit=6`),
         ]);
-        
+
         if (moviesRes.ok) setMovies(await moviesRes.json());
         if (booksRes.ok) setBooks(await booksRes.json());
       } catch (error) {
-        console.error('Failed to fetch:', error);
+        console.error("Failed to fetch:", error);
       } finally {
         setLoading(false);
       }
@@ -71,16 +71,18 @@ function PublicHome() {
           <h1 className="text-4xl md:text-6xl font-black tracking-tight text-white mb-3">
             Postcredits
           </h1>
-          <p className="text-[#bccbb9] text-lg mb-6">Discover your next favorite book or movie</p>
+          <p className="text-[#bccbb9] text-lg mb-6">
+            Discover your next favorite book or movie
+          </p>
           <div className="flex gap-4 justify-center">
-            <Link 
-              href="/register" 
+            <Link
+              href="/register"
               className="px-6 py-3 bg-[#1db954] text-[#003914] rounded-full font-bold hover:bg-[#53e076] transition-colors"
             >
               Get Started
             </Link>
-            <Link 
-              href="/login" 
+            <Link
+              href="/login"
               className="px-6 py-3 bg-[#312828] text-white rounded-full font-bold border border-[#3d4a3d]/50 hover:bg-[#3c3232] transition-colors"
             >
               Login
@@ -88,7 +90,7 @@ function PublicHome() {
           </div>
         </div>
       </div>
-      
+
       {/* Movies Section */}
       <div className="mb-8">
         <h2 className="text-2xl font-bold text-white mb-4">Popular Movies</h2>
@@ -107,7 +109,7 @@ function PublicHome() {
           ))}
         </div>
       </div>
-      
+
       {/* Books Section */}
       <div>
         <h2 className="text-2xl font-bold text-white mb-4">Popular Books</h2>
@@ -142,26 +144,35 @@ function PersonalizedHome() {
   useEffect(() => {
     async function fetchData() {
       if (!isAuthenticated) return;
-      
-      const token = localStorage.getItem('auth_token');
-      const requestOptions: RequestInit = token 
-        ? { headers: { 'Authorization': `Bearer ${token}` } }
+
+      const token = localStorage.getItem("auth_token");
+      const requestOptions: RequestInit = token
+        ? { headers: { Authorization: `Bearer ${token}` } }
         : {};
 
       try {
-        const [movieRecsRes, bookRecsRes, trendingMoviesRes, trendingBooksRes] = await Promise.all([
-          fetch(`${API_BASE_URL}/recommendations/blend?type=movie&limit=8`, requestOptions),
-          fetch(`${API_BASE_URL}/recommendations/blend?type=book&limit=8`, requestOptions),
-          fetch(`${API_BASE_URL}/movies?limit=4`, requestOptions),
-          fetch(`${API_BASE_URL}/books?limit=4`, requestOptions),
-        ]);
-        
+        const [movieRecsRes, bookRecsRes, trendingMoviesRes, trendingBooksRes] =
+          await Promise.all([
+            fetch(
+              `${API_BASE_URL}/recommendations/blend?type=movie&limit=8`,
+              requestOptions,
+            ),
+            fetch(
+              `${API_BASE_URL}/recommendations/blend?type=book&limit=8`,
+              requestOptions,
+            ),
+            fetch(`${API_BASE_URL}/movies?limit=4`, requestOptions),
+            fetch(`${API_BASE_URL}/books?limit=4`, requestOptions),
+          ]);
+
         if (movieRecsRes.ok) setMovieRecs(await movieRecsRes.json());
         if (bookRecsRes.ok) setBookRecs(await bookRecsRes.json());
-        if (trendingMoviesRes.ok) setTrendingMovies(await trendingMoviesRes.json());
-        if (trendingBooksRes.ok) setTrendingBooks(await trendingBooksRes.json());
+        if (trendingMoviesRes.ok)
+          setTrendingMovies(await trendingMoviesRes.json());
+        if (trendingBooksRes.ok)
+          setTrendingBooks(await trendingBooksRes.json());
       } catch (error) {
-        console.error('Failed to fetch recommendations:', error);
+        console.error("Failed to fetch recommendations:", error);
       } finally {
         setLoading(false);
       }
@@ -174,22 +185,24 @@ function PersonalizedHome() {
   return (
     <main className="max-w-7xl mx-auto px-4 md:px-8 py-6">
       <h1 className="text-3xl font-bold text-white mb-6">For You</h1>
-      
+
       {movieRecs.length > 0 && (
-        <RecommendationCarousel 
-          title="Recommended Movies" 
-          recommendations={movieRecs} 
+        <RecommendationCarousel
+          title="Recommended Movies"
+          recommendations={movieRecs}
         />
       )}
-      
+
       {bookRecs.length > 0 && (
-        <RecommendationCarousel 
-          title="Recommended Books" 
-          recommendations={bookRecs} 
+        <RecommendationCarousel
+          title="Recommended Books"
+          recommendations={bookRecs}
         />
       )}
-      
-      <h2 className="text-2xl font-bold text-white mt-8 mb-4">Trending Movies</h2>
+
+      <h2 className="text-2xl font-bold text-white mt-8 mb-4">
+        Trending Movies
+      </h2>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         {trendingMovies.map((movie) => (
           <MediaCard
@@ -204,7 +217,7 @@ function PersonalizedHome() {
           />
         ))}
       </div>
-      
+
       <h2 className="text-2xl font-bold text-white mb-4">Trending Books</h2>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {trendingBooks.map((book) => (

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Theme } from '@radix-ui/themes';
-import '@radix-ui/themes/styles.css';
-import { AuthProvider } from '@/lib/auth-context';
-import Header from '@/components/Header';
+import { Theme } from "@radix-ui/themes";
+import "@radix-ui/themes/styles.css";
+import { AuthProvider } from "@/lib/auth-context";
+import Header from "@/components/Header";
 import "./globals.css";
 
 export const metadata: Metadata = {

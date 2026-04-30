@@ -24,15 +24,15 @@
 
 ## Key Tables
 
-| Table | Purpose |
-|-------|---------|
-| Users | Account management |
-| Works | Unified media entity |
-| Books | Book-specific data |
-| Movies | Movie-specific data |
-| Creators | Authors/Directors |
-| Ratings | User-work ratings |
-| Genres | Genre definitions |
+| Table       | Purpose              |
+| ----------- | -------------------- |
+| Users       | Account management   |
+| Works       | Unified media entity |
+| Books       | Book-specific data   |
+| Movies      | Movie-specific data  |
+| Creators    | Authors/Directors    |
+| Ratings     | User-work ratings    |
+| Genres      | Genre definitions    |
 | Work_Genres | Works-Genres linking |
 
 ## Indexing Strategy
@@ -44,4 +44,4 @@
 
 ---
 
-*Architecture analysis: 2026-04-24*
+_Architecture analysis: 2026-04-24_

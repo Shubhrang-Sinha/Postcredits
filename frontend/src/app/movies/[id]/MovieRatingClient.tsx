@@ -1,78 +1,81 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useAuth } from '@/lib/auth-context';
-import api from '@/lib/api';
-import StarRating from '@/components/StarRating';
-import { Card, Flex, Text, Button } from '@radix-ui/themes';
+import { useState } from "react";
+import { useAuth } from "@/lib/auth-context";
+import api from "@/lib/api";
+import StarRating from "@/components/StarRating";
+import { Card, Flex, Text, Button } from "@radix-ui/themes";
 
 interface MovieRatingClientProps {
   workId: number;
   initialRating?: number;
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
-export default function MovieRatingClient({ workId, initialRating }: MovieRatingClientProps) {
+export default function MovieRatingClient({
+  workId,
+  initialRating,
+}: MovieRatingClientProps) {
   const { isAuthenticated } = useAuth();
   const [userRating, setUserRating] = useState(initialRating || 0);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
-  const getToken = () => localStorage.getItem('auth_token');
+  const getToken = () => localStorage.getItem("auth_token");
 
   const handleRating = async (rating: number) => {
     if (!isAuthenticated) {
-      setMessage('Please login to rate');
+      setMessage("Please login to rate");
       return;
     }
-    
+
     setIsSubmitting(true);
     const token = getToken();
-    
+
     if (userRating > 0) {
       try {
         const response = await fetch(`${API_BASE_URL}/ratings/${workId}`, {
-          method: 'PUT',
+          method: "PUT",
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ score: rating }),
         });
         if (response.ok) {
           setUserRating(rating);
-          setMessage('Rating updated!');
+          setMessage("Rating updated!");
         } else {
-          setMessage('Failed to update rating');
+          setMessage("Failed to update rating");
         }
       } catch {
-        setMessage('Failed to update rating');
+        setMessage("Failed to update rating");
       }
     } else {
       try {
         const response = await fetch(`${API_BASE_URL}/ratings`, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ workId, score: rating }),
         });
         if (response.ok) {
           setUserRating(rating);
-          setMessage('Rating submitted!');
+          setMessage("Rating submitted!");
         } else {
-          setMessage('Failed to submit rating');
+          setMessage("Failed to submit rating");
         }
       } catch {
-        setMessage('Failed to submit rating');
+        setMessage("Failed to submit rating");
       }
     }
-    
+
     setIsSubmitting(false);
-    
-    setTimeout(() => setMessage(''), 3000);
+
+    setTimeout(() => setMessage(""), 3000);
   };
 
   if (!isAuthenticated) {
@@ -86,16 +89,23 @@ export default function MovieRatingClient({ workId, initialRating }: MovieRating
   return (
     <Card className="bg-white/5 border border-white/10 p-4">
       <Flex direction="column" gap="3">
-        <Text size="3" weight="bold">Your Rating:</Text>
-        
-        <StarRating 
-          value={userRating} 
+        <Text size="3" weight="bold">
+          Your Rating:
+        </Text>
+
+        <StarRating
+          value={userRating}
           onChange={handleRating}
           readonly={isSubmitting}
         />
-        
+
         {message && (
-          <Text size="2" className={message.includes('Failed') ? 'text-red-500' : 'text-[#53e076]'}>
+          <Text
+            size="2"
+            className={
+              message.includes("Failed") ? "text-red-500" : "text-[#53e076]"
+            }
+          >
             {message}
           </Text>
         )}

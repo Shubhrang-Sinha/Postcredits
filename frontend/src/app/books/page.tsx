@@ -1,7 +1,7 @@
-import MediaCard from '@/components/MediaCard';
-import GenreFilterServer from './GenreFilterServer';
+import MediaCard from "@/components/MediaCard";
+import GenreFilterServer from "./GenreFilterServer";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
 interface Book {
   bookId: number;
@@ -20,8 +20,8 @@ interface Genre {
 }
 
 async function getBooks(genreId?: number): Promise<Book[]> {
-  const url = genreId 
-    ? `${API_BASE_URL}/books?genre=${genreId}` 
+  const url = genreId
+    ? `${API_BASE_URL}/books?genre=${genreId}`
     : `${API_BASE_URL}/books`;
   try {
     const response = await fetch(url);
@@ -48,23 +48,20 @@ export default async function BooksPage({
   searchParams: { genre?: string };
 }) {
   const genreId = searchParams.genre ? parseInt(searchParams.genre) : undefined;
-  const [books, genres] = await Promise.all([
-    getBooks(genreId),
-    getGenres(),
-  ]);
+  const [books, genres] = await Promise.all([getBooks(genreId), getGenres()]);
 
-  const bookGenres = genres.filter((g: Genre) => g.name.toLowerCase() !== 'movie');
+  const bookGenres = genres.filter(
+    (g: Genre) => g.name.toLowerCase() !== "movie",
+  );
 
   return (
     <main className="max-w-7xl mx-auto px-4 md:px-8 py-6">
       <h1 className="text-3xl font-bold text-white mb-6">Books</h1>
-      
+
       <GenreFilterServer genres={bookGenres} />
-      
+
       {books.length === 0 ? (
-        <div className="p-8 text-center text-[#bccbb9]">
-          No books found
-        </div>
+        <div className="p-8 text-center text-[#bccbb9]">No books found</div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {books.map((book) => (

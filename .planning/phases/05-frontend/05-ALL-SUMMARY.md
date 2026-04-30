@@ -45,18 +45,19 @@ metrics:
 
 ## Completed Plans
 
-| Plan | Name | Status |
-| ---- | ---- | ----- |
-| 05-01 | Initialize Next.js project | Complete |
+| Plan  | Name                        | Status   |
+| ----- | --------------------------- | -------- |
+| 05-01 | Initialize Next.js project  | Complete |
 | 05-02 | Auth pages (login/register) | Complete |
 | 05-03 | Browse pages (books/movies) | Complete |
-| 05-04 | Media detail & rating | Complete |
-| 05-05 | Home & recommendations | Complete |
-| 05-06 | Spotistats dashboard | Complete |
+| 05-04 | Media detail & rating       | Complete |
+| 05-05 | Home & recommendations      | Complete |
+| 05-06 | Spotistats dashboard        | Complete |
 
 ## Implementation Details
 
 ### UI Design (Per Context.md)
+
 - Dark theme (#191111 background) with green accents (#53e076, #1db954)
 - System font (fallback from Plus Jakarta Sans due to build issues)
 - Material Symbols icons via emoji fallbacks
@@ -65,6 +66,7 @@ metrics:
 - Stats dashboard with bar charts
 
 ### Architecture
+
 - **Next.js 14** with App Router
 - **Tailwind CSS v4** for styling
 - **@radix-ui/themes** for UI components
@@ -73,6 +75,7 @@ metrics:
 - **JWT in localStorage** for authentication
 
 ### API Integration
+
 - Backend at `localhost:3000`
 - Authorization header: `Bearer {token}`
 - Endpoints used: `/auth/*`, `/books`, `/movies`, `/genres`, `/ratings`, `/recommendations/blend`, `/stats/*`
@@ -80,6 +83,7 @@ metrics:
 ## Key Components
 
 ### Pages
+
 - `/` - Home (public content or personalized recommendations)
 - `/login`, `/register` - Authentication
 - `/books`, `/movies` - Browse with genre filtering
@@ -88,6 +92,7 @@ metrics:
 - `/stats` - Spotistats dashboard
 
 ### Components
+
 - `Header` - Navigation with auth state
 - `MediaCard` - Reusable card for books/movies
 - `GenreFilter` - Genre filter button group
@@ -172,6 +177,6 @@ Requires backend at localhost:3000 for full functionality.
 
 ---
 
-*Generated: 2026-04-30*
-*Phase: 05-frontend*
-*Plans: 05-01 through 05-06*
+_Generated: 2026-04-30_
+_Phase: 05-frontend_
+_Plans: 05-01 through 05-06_

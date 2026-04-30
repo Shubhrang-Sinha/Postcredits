@@ -5,13 +5,13 @@
 
 ## Phase Summary
 
-| # | Phase | Goal | Requirements | Success Criteria |
-|---|-------|------|--------------|-------------------|
-| 1 | Identity & Schema | ER model, tables, user auth | IDM-01 to IDM-04 | 4 |
-| 2 | Media Catalog | Books, movies, genres | BOOK-01 to GENR-03 | 12 |
-| 3 | Ratings & Triggers | Rating system, triggers | RATE-01 to RATE-05 | 5 |
-| 4 | Discovery Engine | Blend recommendations, stats | STAT-01 to BLND-04 | 9 |
-| 5 | Frontend | Next.js MVP UI | FE-01 to FE-09 | 9 |
+| #   | Phase              | Goal                         | Requirements       | Success Criteria |
+| --- | ------------------ | ---------------------------- | ------------------ | ---------------- |
+| 1   | Identity & Schema  | ER model, tables, user auth  | IDM-01 to IDM-04   | 4                |
+| 2   | Media Catalog      | Books, movies, genres        | BOOK-01 to GENR-03 | 12               |
+| 3   | Ratings & Triggers | Rating system, triggers      | RATE-01 to RATE-05 | 5                |
+| 4   | Discovery Engine   | Blend recommendations, stats | STAT-01 to BLND-04 | 9                |
+| 5   | Frontend           | Next.js MVP UI               | FE-01 to FE-09     | 9                |
 
 ---
 
@@ -20,18 +20,21 @@
 **Goal:** Create ER diagram, 3NF schema, user authentication
 
 **Requirements:**
+
 - IDM-01: User can register with email and password
 - IDM-02: User can log in and stay logged in
 - IDM-03: User can log out from any page
 - IDM-04: Password stored securely (hashed)
 
 **Success Criteria:**
+
 1. ER diagram delivered (E-R modeling required)
 2. Relational schema in 3NF
 3. Users table with secure password storage
 4. Login/logout session works
 
 **Plans:**
+
 - [x] 01-01-PLAN.md — ER diagram (mermaid) ✓
 - [x] 01-02-PLAN.md — Authentication implementation ✓
 
@@ -42,6 +45,7 @@
 **Goal:** Books and movies catalog with genre management
 
 **Requirements:**
+
 - BOOK-01: Admin can add books to catalog
 - BOOK-02: Book has title, author, pages, release year
 - BOOK-03: Users can view book details
@@ -53,18 +57,21 @@
 - GENR-03: Users can filter by genre
 
 **Success Criteria:**
+
 1. Works table with Books/Movies extension
 2. Creators table (Authors/Directors)
 3. Work_Genres junction table
 4. CRUD procedures for all media
 
 **Deliverables:**
+
 - Works, Books, Movies tables
 - Creators table (Authors/Directors)
 - Genres, Work_Genres tables
 - Insert/update procedures
 
 **Plans:**
+
 - [x] 02-01-PLAN.md — Creator management API ✓
 - [x] 02-02-PLAN.md — Genre management API ✓
 
@@ -75,6 +82,7 @@
 **Goal:** User rating system with automated triggers
 
 **Requirements:**
+
 - RATE-01: User can rate a book (1-5)
 - RATE-02: User can rate a movie (1-5)
 - RATE-03: Rating has timestamp
@@ -82,18 +90,21 @@
 - RATE-05: Average rating auto-calculated (trigger)
 
 **Success Criteria:**
+
 1. Ratings table with foreign keys
 2. Insert rating procedure
 3. UPDATE trigger for average calculation
 4. Transaction handling
 
 **Deliverables:**
+
 - Ratings table
 - `rate_media` procedure
 - Trigger: `trg_update_avg_rating`
 - COMMIT/ROLLBACK handling
 
 **Plans:**
+
 - [x] 03-01-PLAN.md — Rate media procedure ✓
 
 ---
@@ -103,6 +114,7 @@
 **Goal:** Blend recommendations and Spotistats dashboard
 
 **Requirements:**
+
 - STAT-01: User sees most-watched genres
 - STAT-02: User sees most-read genres
 - STAT-03: User sees highest-rated years
@@ -112,12 +124,14 @@
 - BLND-04: Recommendations via SQL, no external AI
 
 **Success Criteria:**
+
 1. Similarity function returns score
 2. Blend procedure generates list
 3. Dashboard queries work
 4. Pure SQL, no external services
 
 **Deliverables:**
+
 - Function: `fn_calculate_similarity`
 - Function: `fn_get_taste_profile`
 - Procedure: `proc_generate_blend` (with cursor)
@@ -125,6 +139,7 @@
 - Spotistats dashboard queries
 
 **Plans:**
+
 - [x] 04-01-PLAN.md — Verify discovery engine components ✓
 
 ---
@@ -134,6 +149,7 @@
 **Goal:** Next.js frontend with full MVP UI
 
 **Requirements:**
+
 - FE-01: User can register via UI
 - FE-02: User can login/logout
 - FE-03: Browse books with genre filter
@@ -145,12 +161,14 @@
 - FE-09: View Spotistats (genre/year charts)
 
 **Tech Stack:**
+
 - Next.js 14 (App Router)
 - Tailwind CSS + @radix-ui/themes
 - Server Components with fetch
 - JWT stored in localStorage
 
 **Success Criteria:**
+
 1. Login/Register pages work
 2. Browse pages show books/movies
 3. Rating submission works
@@ -158,6 +176,7 @@
 5. Stats charts render
 
 **Plans:**
+
 - [x] 05-01-PLAN.md — Initialize Next.js project
 - [x] 05-02-PLAN.md — Auth pages (login/register)
 - [x] 05-03-PLAN.md — Browse pages (books/movies)
@@ -176,5 +195,5 @@
 
 ---
 
-*Roadmap: 2026-04-30*
-*All v1 requirements covered ✓*
+_Roadmap: 2026-04-30_
+_All v1 requirements covered ✓_

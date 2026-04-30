@@ -33,11 +33,11 @@
 ## Required Components Checklist
 
 - [ ] At least 2 stored procedures
-- [ ] At least 2 stored functions  
+- [ ] At least 2 stored functions
 - [ ] At least 1 cursor
 - [ ] At least 2 triggers
 - [ ] Transaction management (COMMIT/ROLLBACK)
 
 ---
 
-*Pitfalls analysis: 2026-04-24*
+_Pitfalls analysis: 2026-04-24_

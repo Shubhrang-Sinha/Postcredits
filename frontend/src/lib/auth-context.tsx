@@ -1,7 +1,13 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import api from './api';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import api from "./api";
 
 interface User {
   userId: number;
@@ -14,7 +20,11 @@ interface AuthContextType {
   token: string | null;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<boolean>;
-  register: (email: string, password: string, displayName: string) => Promise<boolean>;
+  register: (
+    email: string,
+    password: string,
+    displayName: string,
+  ) => Promise<boolean>;
   logout: () => void;
   isAuthenticated: boolean;
 }
@@ -28,9 +38,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Check for existing token on mount
-    const storedToken = localStorage.getItem('auth_token');
-    const storedUser = localStorage.getItem('auth_user');
-    
+    const storedToken = localStorage.getItem("auth_token");
+    const storedUser = localStorage.getItem("auth_user");
+
     if (storedToken && storedUser) {
       setToken(storedToken);
       setUser(JSON.parse(storedUser));
@@ -39,15 +49,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
-    const result = await api.post<{ token: string; userId: number; displayName?: string }>(
-      '/auth/login',
-      { email, password }
-    );
-    
+    const result = await api.post<{
+      token: string;
+      userId: number;
+      displayName?: string;
+    }>("/auth/login", { email, password });
+
     if (result.data && result.data.token) {
       const { token, userId, displayName } = result.data;
-      localStorage.setItem('auth_token', token);
-      localStorage.setItem('auth_user', JSON.stringify({ userId, email, displayName }));
+      localStorage.setItem("auth_token", token);
+      localStorage.setItem(
+        "auth_user",
+        JSON.stringify({ userId, email, displayName }),
+      );
       setToken(token);
       setUser({ userId, email, displayName });
       return true;
@@ -55,16 +69,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return false;
   };
 
-  const register = async (email: string, password: string, displayName: string): Promise<boolean> => {
+  const register = async (
+    email: string,
+    password: string,
+    displayName: string,
+  ): Promise<boolean> => {
     const result = await api.post<{ token: string; userId: number }>(
-      '/auth/register',
-      { email, password, displayName }
+      "/auth/register",
+      { email, password, displayName },
     );
-    
+
     if (result.data && result.data.token) {
       const { token, userId } = result.data;
-      localStorage.setItem('auth_token', token);
-      localStorage.setItem('auth_user', JSON.stringify({ userId, email, displayName }));
+      localStorage.setItem("auth_token", token);
+      localStorage.setItem(
+        "auth_user",
+        JSON.stringify({ userId, email, displayName }),
+      );
       setToken(token);
       setUser({ userId, email, displayName });
       return true;
@@ -73,8 +94,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = () => {
-    localStorage.removeItem('auth_token');
-    localStorage.removeItem('auth_user');
+    localStorage.removeItem("auth_token");
+    localStorage.removeItem("auth_user");
     setToken(null);
     setUser(null);
   };
@@ -99,7 +120,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 }

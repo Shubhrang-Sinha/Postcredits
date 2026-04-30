@@ -11,14 +11,17 @@ updated: 2026-04-30
 **Objective:** Add creator (author/director) management API
 
 **Tasks Completed:**
+
 - [x] Task 1: Create creators.ts route
 - [x] Task 2: Register creator routes in index.ts
 
 **Artifacts Created/Modified:**
+
 - `backend/src/routes/creators.ts` - New creator management routes
 - `backend/src/index.ts` - Added creatorRoutes registration
 
 **Key Files Created:**
+
 - `.planning/phases/02-media-catalog/02-01-SUMMARY.md` (this file)
 
 ## API Endpoints

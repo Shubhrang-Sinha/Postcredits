@@ -54,4 +54,4 @@
 
 ---
 
-*Stack analysis: 2026-04-24*
+_Stack analysis: 2026-04-24_

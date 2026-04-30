@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 interface Genre {
   genreId: number;
@@ -18,7 +18,11 @@ export default function GenreFilterServer({ genres }: GenreFilterServerProps) {
         </span>
       </Link>
       {genres.map((genre) => (
-        <Link key={genre.genreId} href={`/movies?genre=${genre.genreId}`} className="no-underline">
+        <Link
+          key={genre.genreId}
+          href={`/movies?genre=${genre.genreId}`}
+          className="no-underline"
+        >
           <span className="px-4 py-2 rounded-full text-sm font-medium bg-[#261d1d]/60 text-[#bccbb9] border border-[#3d4a3d]/30 hover:bg-[#312828] transition-colors">
             {genre.name}
           </span>

@@ -11,18 +11,22 @@ updated: 2026-04-30
 **Objective:** Add rate_media PL/SQL procedure and verify triggers for auto-calculated average
 
 **Tasks Completed:**
+
 - [x] Task 1: Add rate_media procedure to plsql.sql
 - [x] Task 2: Verify trigger properly logs ratings
 
 **Artifacts Created/Modified:**
+
 - `backend/sql/plsql.sql` - Added rate_media procedure
 
 **Key Files Created:**
+
 - `.planning/phases/03-ratings-triggers/03-01-SUMMARY.md` (this file)
 
 ## PL/SQL Components
 
 **rate_media Procedure:**
+
 - Input: p_user_id, p_work_id, p_score
 - Output: p_rating_id, p_message
 - Handles upsert (insert or update existing rating)
@@ -30,11 +34,13 @@ updated: 2026-04-30
 - Uses transaction with COMMIT
 
 **Triggers (already present):**
+
 - trg_update_avg_rating (AFTER INSERT)
 - trg_update_avg_rating_update (AFTER UPDATE)
 - trg_log_rating_delete (AFTER DELETE)
 
 **Auto-calculated average:**
+
 - work_avg_rating view calculates average on-the-fly
 - Triggers log changes to rating_audit table
 

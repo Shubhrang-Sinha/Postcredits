@@ -52,13 +52,13 @@ Users discover new books and movies through taste-similarity recommendations com
 
 ## Key Decisions
 
-| Decision | Rationale | Outcome |
-|---------|-----------|--------|
-| Hono framework | Lightweight, TypeScript-first | — Pending |
-| MySQL for all logic | Course requirement, PL/SQL per Instructor | — Pending |
-| Unified Works entity | Share traits between books/movies | — Pending |
-| Trigger for avg ratings | Automated stats per DB requirement | — Pending |
+| Decision                | Rationale                                 | Outcome   |
+| ----------------------- | ----------------------------------------- | --------- |
+| Hono framework          | Lightweight, TypeScript-first             | — Pending |
+| MySQL for all logic     | Course requirement, PL/SQL per Instructor | — Pending |
+| Unified Works entity    | Share traits between books/movies         | — Pending |
+| Trigger for avg ratings | Automated stats per DB requirement        | — Pending |
 
 ---
 
-*Last updated: 2026-04-24 after initial discussion*
+_Last updated: 2026-04-24 after initial discussion_

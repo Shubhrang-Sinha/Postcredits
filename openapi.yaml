@@ -56,7 +56,7 @@ paths:
                   type: string
                   example: John Doe
       responses:
-        '201':
+        "201":
           description: User registered successfully
           content:
             application/json:
@@ -67,7 +67,7 @@ paths:
                     type: integer
                   email:
                     type: string
-        '400':
+        "400":
           description: Invalid input or email already exists
 
   /auth/login:
@@ -93,7 +93,7 @@ paths:
                   type: string
                   format: password
       responses:
-        '200':
+        "200":
           description: Login successful
           content:
             application/json:
@@ -106,7 +106,7 @@ paths:
                     type: string
                   displayName:
                     type: string
-        '401':
+        "401":
           description: Invalid credentials
 
   /auth/logout:
@@ -118,7 +118,7 @@ paths:
       security:
         - BearerAuth: []
       responses:
-        '200':
+        "200":
           description: Logout successful
 
   /auth/me:
@@ -130,7 +130,7 @@ paths:
       security:
         - BearerAuth: []
       responses:
-        '200':
+        "200":
           description: Current user details
           content:
             application/json:
@@ -167,14 +167,14 @@ paths:
             type: integer
             default: 20
       responses:
-        '200':
+        "200":
           description: List of books
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Book'
+                  $ref: "#/components/schemas/Book"
     post:
       tags:
         - Books
@@ -187,14 +187,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BookInput'
+              $ref: "#/components/schemas/BookInput"
       responses:
-        '201':
+        "201":
           description: Book created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Book'
+                $ref: "#/components/schemas/Book"
 
   /books/{bookId}:
     get:
@@ -209,13 +209,13 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: Book details
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Book'
-        '404':
+                $ref: "#/components/schemas/Book"
+        "404":
           description: Book not found
 
     put:
@@ -236,9 +236,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BookInput'
+              $ref: "#/components/schemas/BookInput"
       responses:
-        '200':
+        "200":
           description: Book updated
 
     delete:
@@ -255,7 +255,7 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: Book deleted
 
   # ==================== Movies ====================
@@ -281,14 +281,14 @@ paths:
             type: integer
             default: 20
       responses:
-        '200':
+        "200":
           description: List of movies
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Movie'
+                  $ref: "#/components/schemas/Movie"
     post:
       tags:
         - Movies
@@ -301,9 +301,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MovieInput'
+              $ref: "#/components/schemas/MovieInput"
       responses:
-        '201':
+        "201":
           description: Movie created
 
   /movies/{movieId}:
@@ -319,13 +319,13 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: Movie details
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Movie'
-        '404':
+                $ref: "#/components/schemas/Movie"
+        "404":
           description: Movie not found
 
     put:
@@ -346,9 +346,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MovieInput'
+              $ref: "#/components/schemas/MovieInput"
       responses:
-        '200':
+        "200":
           description: Movie updated
 
     delete:
@@ -365,7 +365,7 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: Movie deleted
 
   # ==================== Genres ====================
@@ -376,14 +376,14 @@ paths:
       summary: List all genres
       operationId: listGenres
       responses:
-        '200':
+        "200":
           description: List of genres
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Genre'
+                  $ref: "#/components/schemas/Genre"
 
   # ==================== Ratings ====================
   /ratings:
@@ -401,7 +401,7 @@ paths:
             type: string
             enum: [book, movie]
       responses:
-        '200':
+        "200":
           description: User's ratings
     post:
       tags:
@@ -427,12 +427,12 @@ paths:
                   minimum: 1
                   maximum: 5
       responses:
-        '201':
+        "201":
           description: Rating created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Rating'
+                $ref: "#/components/schemas/Rating"
 
   /ratings/{ratingId}:
     put:
@@ -462,7 +462,7 @@ paths:
                   minimum: 1
                   maximum: 5
       responses:
-        '200':
+        "200":
           description: Rating updated
     delete:
       tags:
@@ -478,7 +478,7 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: Rating deleted
 
   # ==================== Statistics (Spotistats) ====================
@@ -498,7 +498,7 @@ paths:
             type: string
             enum: [book, movie]
       responses:
-        '200':
+        "200":
           description: Most watched/read genres
           content:
             application/json:
@@ -530,7 +530,7 @@ paths:
             type: string
             enum: [book, movie]
       responses:
-        '200':
+        "200":
           description: Highest rated years
           content:
             application/json:
@@ -566,7 +566,7 @@ paths:
             type: integer
             default: 10
       responses:
-        '200':
+        "200":
           description: Blend recommendations
           content:
             application/json:
@@ -599,7 +599,7 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: Similarity score
           content:
             application/json:
