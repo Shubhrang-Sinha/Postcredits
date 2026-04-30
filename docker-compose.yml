@@ -25,6 +25,11 @@ services:
     container_name: postcredits-backend
     environment:
       DATABASE_URL: mysql://postcredits:postcredits@db:3306/postcredits
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_USER: postcredits
+      DB_PASS: postcredits
+      DB_NAME: postcredits
       PORT: "3000"
       NODE_ENV: production
     ports:

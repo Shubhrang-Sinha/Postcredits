@@ -34,7 +34,7 @@ export function getPool(): any {
 }
 
 export async function query(sql: string, params?: unknown[]): Promise<any> {
-  const [rows]: any = await getPool().execute(sql, params);
+  const [rows]: any = await getPool().query(sql, params);
   return rows;
 }
 

@@ -6,9 +6,11 @@
 
 COMMAND="${1:-api}"
 
+echo "Running migrations..."
+mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASS" "$DB_NAME" < /app/sql/schema.sql
+
 if [ "$COMMAND" = "seed" ]; then
   echo "Running database seed..."
-  cd /app
   npm run db:seed
 else
   echo "Starting API server..."

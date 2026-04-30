@@ -10,22 +10,17 @@ import { statsRoutes } from "./routes/stats.js";
 import { recommendationRoutes } from "./routes/recommendations.js";
 import { creatorRoutes } from "./routes/creators.js";
 import { logger } from "hono/logger";
-import { seed, needsSeed } from "./db/seed.js";
+import { seed, needsSeed, migrate } from "./db/seed.js";
 const app = new Hono();
 app.use(logger());
-app.use(
-  "/*",
-  cors({
+app.use("/*", cors({
     origin: "*",
-  }),
-);
-app.get("/", (c) =>
-  c.json({
+}));
+app.get("/", (c) => c.json({
     name: "Postcredits API",
     version: "1.0.0",
     docs: "/openapi.yaml",
-  }),
-);
+}));
 app.get("/health", (c) => c.json({ status: "ok" }));
 // Mount routes
 authRoutes(app);
@@ -38,22 +33,22 @@ recommendationRoutes(app);
 creatorRoutes(app);
 // Auto-migrate and seed on first run
 (async () => {
-  try {
-    if (await needsSeed()) {
-      console.log("Database empty, running migrations and seed...");
-      await seed();
-      console.log("Database ready!");
+    try {
+        console.log("Running migrations...");
+        await migrate();
+        if (await needsSeed()) {
+            console.log("Database empty, running seed...");
+            await seed();
+            console.log("Database ready!");
+        }
     }
-  } catch (err) {
-    console.error("Startup seed failed:", err);
-  }
+    catch (err) {
+        console.error("Startup seed failed:", err);
+    }
 })();
-serve(
-  {
+serve({
     fetch: app.fetch,
     port: parseInt(process.env.PORT || "3000"),
-  },
-  (info) => {
+}, (info) => {
     console.log(`Server running on http://localhost:${info.port}`);
-  },
-);
+});

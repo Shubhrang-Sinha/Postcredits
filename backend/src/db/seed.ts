@@ -18,6 +18,31 @@ const DB_USER = process.env.DB_USER || "root";
 const DB_PASS = process.env.DB_PASS || "";
 const DB_NAME = process.env.DB_NAME || "postcredits";
 
+export async function migrate() {
+  const connection = await mysql.createConnection({
+    host: DB_HOST,
+    port: DB_PORT,
+    user: DB_USER,
+    password: DB_PASS,
+    database: DB_NAME,
+  });
+
+  try {
+    const schemaPath = path.join(process.cwd(), 'sql', 'schema.sql');
+    const schema = fs.readFileSync(schemaPath, 'utf-8');
+    const statements = schema.split(';').filter(s => s.trim());
+    
+    for (const stmt of statements) {
+      if (stmt.trim()) {
+        await connection.execute(stmt);
+      }
+    }
+    console.log('Migrations complete!');
+  } finally {
+    await connection.end();
+  }
+}
+
 interface BookRow {
   title: string;
   release_year: string;
@@ -50,7 +75,7 @@ export async function seed() {
 
   try {
     // Load CSV files
-    const dataDir = path.join(process.cwd(), "..", "data");
+    const dataDir = path.join(process.cwd(), "data");
 
     console.log("Loading books.csv...");
     const booksCsv = fs.readFileSync(path.join(dataDir, "books.csv"), "utf-8");
@@ -246,5 +271,3 @@ export async function needsSeed(): Promise<boolean> {
     await connection.end();
   }
 }
-
-seed().catch(console.error);
