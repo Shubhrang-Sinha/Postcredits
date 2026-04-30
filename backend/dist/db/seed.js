@@ -15,7 +15,7 @@ const DB_PORT = parseInt(process.env.DB_PORT || '3306');
 const DB_USER = process.env.DB_USER || 'root';
 const DB_PASS = process.env.DB_PASS || '';
 const DB_NAME = process.env.DB_NAME || 'postcredits';
-async function seed() {
+export async function seed() {
     console.log('Connecting to database...');
     const connection = await mysql.createConnection({
         host: DB_HOST,
@@ -139,6 +139,22 @@ async function seed() {
     catch (error) {
         console.error('Error during seeding:', error);
         throw error;
+    }
+    finally {
+        await connection.end();
+    }
+}
+export async function needsSeed() {
+    const connection = await mysql.createConnection({
+        host: DB_HOST,
+        port: DB_PORT,
+        user: DB_USER,
+        password: DB_PASS,
+        database: DB_NAME,
+    });
+    try {
+        const [rows] = await connection.execute('SELECT COUNT(*) as count FROM works');
+        return (rows[0]?.count ?? 0) === 0;
     }
     finally {
         await connection.end();

@@ -9,7 +9,8 @@ import { ratingRoutes } from './routes/ratings.js';
 import { statsRoutes } from './routes/stats.js';
 import { recommendationRoutes } from './routes/recommendations.js';
 import { creatorRoutes } from './routes/creators.js';
-import { logger } from 'hono/logger'
+import { logger } from 'hono/logger';
+import { seed, needsSeed } from './db/seed.js';
 
 const app = new Hono();
 
@@ -36,6 +37,19 @@ ratingRoutes(app);
 statsRoutes(app);
 recommendationRoutes(app);
 creatorRoutes(app);
+
+// Auto-migrate and seed on first run
+(async () => {
+  try {
+    if (await needsSeed()) {
+      console.log('Database empty, running migrations and seed...');
+      await seed();
+      console.log('Database ready!');
+    }
+  } catch (err) {
+    console.error('Startup seed failed:', err);
+  }
+})();
 
 serve({
   fetch: app.fetch,
