@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useAuth } from "@/lib/auth-context";
 import api from "@/lib/api";
 import StarRating from "@/components/StarRating";
-import { Card, Flex, Text, Button } from "@radix-ui/themes";
 
 interface MovieRatingClientProps {
   workId: number;
@@ -80,18 +79,18 @@ export default function MovieRatingClient({
 
   if (!isAuthenticated) {
     return (
-      <Card className="bg-white/5 border border-white/10 p-4">
-        <Text>Please login to rate this movie</Text>
-      </Card>
+      <div className="bg-bg-secondary/10 border border-border-subtle/20 p-4 rounded-lg">
+        <p className="text-text-secondary">Please login to rate this movie</p>
+      </div>
     );
   }
 
   return (
-    <Card className="bg-white/5 border border-white/10 p-4">
-      <Flex direction="column" gap="3">
-        <Text size="3" weight="bold">
+    <div className="bg-bg-secondary/10 border border-border-subtle/20 p-4 rounded-lg">
+      <div className="flex flex-col gap-3">
+        <h3 className="text-base font-bold text-text-primary">
           Your Rating:
-        </Text>
+        </h3>
 
         <StarRating
           value={userRating}
@@ -100,16 +99,11 @@ export default function MovieRatingClient({
         />
 
         {message && (
-          <Text
-            size="2"
-            className={
-              message.includes("Failed") ? "text-red-500" : "text-[#53e076]"
-            }
-          >
+          <p className={`text-sm ${message.includes("Failed") ? "text-danger" : "text-accent"}`}>
             {message}
-          </Text>
+          </p>
         )}
-      </Flex>
-    </Card>
+      </div>
+    </div>
   );
 }

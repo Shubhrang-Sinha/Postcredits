@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { Theme } from "@radix-ui/themes";
-import "@radix-ui/themes/styles.css";
 import { AuthProvider } from "@/lib/auth-context";
 import Header from "@/components/Header";
 import "./globals.css";
@@ -17,12 +15,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-[#191111] text-white">
+      <body className="min-h-screen bg-bg-primary text-text-primary font-[family-name:var(--font-family)]">
         <AuthProvider>
-          <Theme accentColor="cyan" grayColor="sand" radius="medium">
-            <Header />
-            {children}
-          </Theme>
+          <Header />
+          {children}
         </AuthProvider>
       </body>
     </html>

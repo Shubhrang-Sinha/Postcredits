@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import StatsChart from "@/components/StatsChart";
-import { Flex, Heading, Text, Tabs, Box, Spinner } from "@radix-ui/themes";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
@@ -27,6 +26,7 @@ function StatsContent() {
   const [movieYears, setMovieYears] = useState<YearStat[]>([]);
   const [bookYears, setBookYears] = useState<YearStat[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<"movies" | "books">("movies");
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -72,9 +72,9 @@ function StatsContent() {
 
   if (isLoading || loading) {
     return (
-      <Box className="flex justify-center p-8">
-        <Spinner size="3" />
-      </Box>
+      <div className="flex justify-center p-8">
+        <div className="animate-spin h-8 w-8 border-2 border-accent border-t-transparent rounded-full"></div>
+      </div>
     );
   }
 
@@ -98,54 +98,68 @@ function StatsContent() {
     .map((y) => ({ label: y.year.toString(), value: y.count }));
 
   return (
-    <main style={{ maxWidth: 1400, margin: "0 auto", padding: "24px" }}>
-      <Heading size="8" mb="2" className="text-white">
+    <main className="max-w-[1400px] mx-auto px-6">
+      <h1 className="text-3xl font-bold text-text-primary mb-1">
         Spotistats
-      </Heading>
-      <Text size="3" color="gray" mb="6" className="block">
-        Your viewing and reading statistics
-      </Text>
+      </h1>
+      <p className="text-text-secondary mb-6">Your viewing and reading statistics</p>
 
-      <Tabs.Root defaultValue="movies" className="mt-4">
-        <Tabs.List>
-          <Tabs.Trigger value="movies" className="px-4">
+      <div className="mt-4">
+        <div className="flex gap-1 border-b border-border-subtle/30">
+          <button
+            onClick={() => setActiveTab("movies")}
+            className={`px-4 py-2 -mb-px text-sm font-medium transition-colors ${
+              activeTab === "movies"
+                ? "text-accent border-b-2 border-accent"
+                : "text-text-secondary hover:text-text-primary"
+            }`}
+          >
             Movies
-          </Tabs.Trigger>
-          <Tabs.Trigger value="books" className="px-4">
+          </button>
+          <button
+            onClick={() => setActiveTab("books")}
+            className={`px-4 py-2 -mb-px text-sm font-medium transition-colors ${
+              activeTab === "books"
+                ? "text-accent border-b-2 border-accent"
+                : "text-text-secondary hover:text-text-primary"
+            }`}
+          >
             Books
-          </Tabs.Trigger>
-        </Tabs.List>
+          </button>
+        </div>
 
-        <Tabs.Content value="movies">
-          <Flex direction="column" gap="6" mt="6">
-            <StatsChart
-              title="Movies by Genre"
-              data={movieGenreData}
-              color="#06b6d4"
-            />
-            <StatsChart
-              title="Movies by Year"
-              data={movieYearData}
-              color="#8b5cf6"
-            />
-          </Flex>
-        </Tabs.Content>
+        <div className="mt-6 space-y-6">
+          {activeTab === "movies" && (
+            <>
+              <StatsChart
+                title="Movies by Genre"
+                data={movieGenreData}
+                color="#06b6d4"
+              />
+              <StatsChart
+                title="Movies by Year"
+                data={movieYearData}
+                color="#8b5cf6"
+              />
+            </>
+          )}
 
-        <Tabs.Content value="books">
-          <Flex direction="column" gap="6" mt="6">
-            <StatsChart
-              title="Books by Genre"
-              data={bookGenreData}
-              color="#10b981"
-            />
-            <StatsChart
-              title="Books by Year"
-              data={bookYearData}
-              color="#f59e0b"
-            />
-          </Flex>
-        </Tabs.Content>
-      </Tabs.Root>
+          {activeTab === "books" && (
+            <>
+              <StatsChart
+                title="Books by Genre"
+                data={bookGenreData}
+                color="#10b981"
+              />
+              <StatsChart
+                title="Books by Year"
+                data={bookYearData}
+                color="#f59e0b"
+              />
+            </>
+          )}
+        </div>
+      </div>
     </main>
   );
 }

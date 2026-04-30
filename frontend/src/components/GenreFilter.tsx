@@ -22,8 +22,8 @@ export default function GenreFilter({
         onClick={() => onGenreSelect(null)}
         className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
           selectedGenre === null
-            ? "bg-[#1db954] text-[#003914]"
-            : "bg-[#261d1d]/60 text-[#bccbb9] border border-[#3d4a3d]/30 hover:bg-[#312828]"
+            ? "bg-accent-hover text-[#003914]"
+            : "bg-bg-secondary/60 text-text-secondary border border-border-subtle/30 hover:bg-bg-tertiary"
         }`}
       >
         All
@@ -34,8 +34,8 @@ export default function GenreFilter({
           onClick={() => onGenreSelect(genre.genreId)}
           className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
             selectedGenre === genre.genreId
-              ? "bg-[#1db954] text-[#003914]"
-              : "bg-[#261d1d]/60 text-[#bccbb9] border border-[#3d4a3d]/30 hover:bg-[#312828]"
+              ? "bg-accent-hover text-[#003914]"
+              : "bg-bg-secondary/60 text-text-secondary border border-border-subtle/30 hover:bg-bg-tertiary"
           }`}
         >
           {genre.name}

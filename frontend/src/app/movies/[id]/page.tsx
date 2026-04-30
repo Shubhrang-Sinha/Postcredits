@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import StarRating from "@/components/StarRating";
-import { Card, Flex, Heading, Text, Separator, Box } from "@radix-ui/themes";
 import MovieRatingClient from "./MovieRatingClient";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
@@ -62,51 +61,51 @@ export default async function MovieDetailPage({
   }
 
   return (
-    <main style={{ maxWidth: 800, margin: "0 auto", padding: "24px" }}>
-      <Card size="4" className="bg-white/5 border border-white/10">
-        <Flex direction="column" gap="4">
-          <Heading size="9" className="text-white">
+    <main className="max-w-[800px] mx-auto px-6">
+      <div className="bg-bg-secondary/10 border border-border-subtle/20 rounded-lg p-6">
+        <div className="flex flex-col gap-4">
+          <h1 className="text-3xl font-bold text-text-primary">
             {movie.title}
-          </Heading>
+          </h1>
 
-          <Flex gap="4" wrap="wrap">
-            <Text size="3" className="text-gray-400">
+          <div className="flex gap-4 flex-wrap">
+            <span className="text-text-secondary">
               Director: {movie.director_name}
-            </Text>
-            <Text size="3" className="text-gray-400">
+            </span>
+            <span className="text-text-secondary">
               Year: {movie.release_year}
-            </Text>
-            <Text size="3" className="text-gray-400">
+            </span>
+            <span className="text-text-secondary">
               Duration: {formatDuration(movie.duration)}
-            </Text>
-          </Flex>
+            </span>
+          </div>
 
           {movie.genres && movie.genres.length > 0 && (
-            <Flex gap="2" wrap="wrap">
+            <div className="flex gap-2 flex-wrap">
               {movie.genres.map((genre) => (
-                <Text key={genre} size="2" color="gray">
+                <span key={genre} className="text-text-secondary text-sm">
                   {genre}
-                </Text>
+                </span>
               ))}
-            </Flex>
+            </div>
           )}
 
-          <Separator className="bg-white/10" />
+          <div className="border-t border-border-subtle/20" />
 
-          <Flex justify="between" align="center">
-            <Text size="4">Average Rating:</Text>
+          <div className="flex justify-between items-center">
+            <span className="text-lg">Average Rating:</span>
             <StarRating
               value={Math.round(movie.average_rating || 0)}
               readonly
               size="medium"
             />
-          </Flex>
+          </div>
 
-          <Box className="mt-4">
+          <div className="mt-4">
             <MovieRatingClient workId={movie.work_id} />
-          </Box>
-        </Flex>
-      </Card>
+          </div>
+        </div>
+      </div>
     </main>
   );
 }

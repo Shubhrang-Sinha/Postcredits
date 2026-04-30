@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
-import api from "@/lib/api";
 import MediaCard from "@/components/MediaCard";
-import { Flex, Heading, Text, Spinner, Box } from "@radix-ui/themes";
-import { useState } from "react";
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
 interface RatingItem {
   rating_id: number;
@@ -15,8 +14,6 @@ interface RatingItem {
   score: number;
   work_type: string;
 }
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
 function WatchlistContent() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -57,9 +54,9 @@ function WatchlistContent() {
 
   if (isLoading || loading) {
     return (
-      <Box className="flex justify-center p-8">
-        <Spinner size="3" />
-      </Box>
+      <div className="flex justify-center p-8">
+        <div className="animate-spin h-8 w-8 border-2 border-accent border-t-transparent rounded-full"></div>
+      </div>
     );
   }
 
@@ -68,23 +65,18 @@ function WatchlistContent() {
   }
 
   return (
-    <main style={{ maxWidth: 1400, margin: "0 auto", padding: "24px" }}>
-      <Heading size="8" mb="2" className="text-white">
+    <main className="max-w-[1400px] mx-auto px-6">
+      <h1 className="text-3xl font-bold text-text-primary mb-1">
         Watchlist
-      </Heading>
-      <Text size="3" mb="6" color="gray" className="block">
-        {ratings.length} rated items
-      </Text>
+      </h1>
+      <p className="text-text-secondary mb-6">{ratings.length} rated items</p>
 
       {ratings.length === 0 ? (
-        <Box className="p-8 text-center text-gray-400">
-          <Text>
-            You haven't rated any items yet. Start browsing to add to your
-            watchlist!
-          </Text>
-        </Box>
+        <div className="p-8 text-center text-text-secondary">
+          <p>You haven't rated any items yet. Start browsing to add to your watchlist!</p>
+        </div>
       ) : (
-        <Flex gap="4" wrap="wrap">
+        <div className="flex flex-wrap gap-4">
           {ratings.map((rating) => (
             <MediaCard
               key={rating.rating_id}
@@ -94,7 +86,7 @@ function WatchlistContent() {
               type={rating.work_type === "movie" ? "movie" : "book"}
             />
           ))}
-        </Flex>
+        </div>
       )}
     </main>
   );

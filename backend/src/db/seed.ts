@@ -28,16 +28,16 @@ export async function migrate() {
   });
 
   try {
-    const schemaPath = path.join(process.cwd(), 'sql', 'schema.sql');
-    const schema = fs.readFileSync(schemaPath, 'utf-8');
-    const statements = schema.split(';').filter(s => s.trim());
-    
+    const schemaPath = path.join(process.cwd(), "sql", "schema.sql");
+    const schema = fs.readFileSync(schemaPath, "utf-8");
+    const statements = schema.split(";").filter((s) => s.trim());
+
     for (const stmt of statements) {
       if (stmt.trim()) {
         await connection.execute(stmt);
       }
     }
-    console.log('Migrations complete!');
+    console.log("Migrations complete!");
   } finally {
     await connection.end();
   }

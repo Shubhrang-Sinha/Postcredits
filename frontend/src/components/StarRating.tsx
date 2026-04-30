@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Flex } from "@radix-ui/themes";
 
 interface StarRatingProps {
   value: number;
@@ -21,13 +20,13 @@ export default function StarRating({
   const displayValue = hoverValue || value;
 
   const starSize = {
-    small: "16px",
-    medium: "28px",
-    large: "40px",
+    small: "text-base",
+    medium: "text-2xl",
+    large: "text-4xl",
   }[size];
 
   return (
-    <Flex gap="1">
+    <div className="flex gap-1">
       {[1, 2, 3, 4, 5].map((star) => (
         <button
           key={star}
@@ -36,19 +35,11 @@ export default function StarRating({
           onClick={() => !readonly && onChange?.(star)}
           onMouseEnter={() => !readonly && setHoverValue(star)}
           onMouseLeave={() => !readonly && setHoverValue(0)}
-          style={{
-            background: "none",
-            border: "none",
-            cursor: readonly ? "default" : "pointer",
-            fontSize: starSize,
-            padding: "4px",
-            filter: star <= displayValue ? "none" : "grayscale(100%)",
-            opacity: star <= displayValue ? 1 : 0.4,
-          }}
+          className={`${starSize} p-1 bg-transparent border-none ${readonly ? 'cursor-default' : 'cursor-pointer'} ${star <= displayValue ? '' : 'grayscale opacity-40'} hover:scale-110 transition-transform`}
         >
           ⭐
         </button>
       ))}
-    </Flex>
+    </div>
   );
 }
