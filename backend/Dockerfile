@@ -9,6 +9,7 @@ RUN npm ci
 
 COPY tsconfig.json ./
 COPY src ./src
+COPY data ./data
 
 RUN npm run build && npm prune --omit=dev
 
@@ -21,9 +22,16 @@ RUN addgroup --system --gid 1001 nodejs \
 COPY --from=builder --chown=hono:nodejs /app/node_modules ./node_modules
 COPY --from=builder --chown=hono:nodejs /app/dist ./dist
 COPY --from=builder --chown=hono:nodejs /app/package.json ./package.json
+COPY --from=builder --chown=hono:nodejs /app/data ./data
 
 USER hono
 
 ENV NODE_ENV=production
 EXPOSE 3000
-CMD ["node", "dist/index.js"]
+
+COPY --from=builder --chown=hono:nodejs /app/docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+# Default command runs API, but can be overridden to seed
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["api"]
