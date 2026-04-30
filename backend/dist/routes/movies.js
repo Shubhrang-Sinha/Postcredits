@@ -8,9 +8,10 @@ export function movieRoutes(app) {
         const limit = parseInt(c.req.query('limit') || '20');
         const offset = (page - 1) * limit;
         let sql = `
-      SELECT m.movie_id, w.work_id, w.title, w.release_year, m.duration,
-             c.name as director_name, c.creator_id as director_id,
-             COALESCE(war.average_rating, 0) as average_rating
+      SELECT m.movie_id as movieId, w.work_id as workId, w.title, w.release_year as releaseYear, m.duration,
+             c.name as director, c.creator_id as directorId,
+             COALESCE(war.average_rating, 0) as averageRating,
+             w.created_at as createdAt
       FROM movies m
       JOIN works w ON m.work_id = w.work_id
       JOIN creators c ON m.director_id = c.creator_id
@@ -28,7 +29,7 @@ export function movieRoutes(app) {
         for (const movie of movies) {
             const genres = await query(`SELECT g.name FROM genres g 
          JOIN work_genres wg ON g.genre_id = wg.genre_id 
-         WHERE wg.work_id = ?`, [movie.work_id]);
+         WHERE wg.work_id = ?`, [movie.workId]);
             movie.genres = genres.map((g) => g.name);
         }
         return c.json(movies);
@@ -37,9 +38,10 @@ export function movieRoutes(app) {
     app.get('/movies/:movieId', async (c) => {
         const movieId = parseInt(c.req.param('movieId'));
         const movie = await queryOne(`
-      SELECT m.movie_id, w.work_id, w.title, w.release_year, m.duration,
-             c.name as director_name, c.creator_id as director_id,
-             COALESCE(war.average_rating, 0) as average_rating
+      SELECT m.movie_id as movieId, w.work_id as workId, w.title, w.release_year as releaseYear, m.duration,
+             c.name as director, c.creator_id as directorId,
+             COALESCE(war.average_rating, 0) as averageRating,
+             w.created_at as createdAt
       FROM movies m
       JOIN works w ON m.work_id = w.work_id
       JOIN creators c ON m.director_id = c.creator_id
@@ -51,7 +53,7 @@ export function movieRoutes(app) {
         }
         const genres = await query(`SELECT g.name FROM genres g 
        JOIN work_genres wg ON g.genre_id = wg.genre_id 
-       WHERE wg.work_id = ?`, [movie.work_id]);
+       WHERE wg.work_id = ?`, [movie.workId]);
         return c.json({ ...movie, genres: genres.map((g) => g.name) });
     });
     // Create movie (admin only)

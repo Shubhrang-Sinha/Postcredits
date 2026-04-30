@@ -10,7 +10,7 @@
 import fs from 'fs';
 import path from 'path';
 import mysql from 'mysql2/promise';
-import csv from 'csv-parse/sync';
+import { parse as csvParse } from 'csv-parse/sync';
 
 const DB_HOST = process.env.DB_HOST || 'localhost';
 const DB_PORT = parseInt(process.env.DB_PORT || '3306');
@@ -54,12 +54,12 @@ async function seed() {
     
     console.log('Loading books.csv...');
     const booksCsv = fs.readFileSync(path.join(dataDir, 'books.csv'), 'utf-8');
-    const books: BookRow[] = csv.parse(booksCsv, { columns: true, skip_empty_lines: true });
+    const books: BookRow[] = csvParse(booksCsv, { columns: true, skip_empty_lines: true });
     console.log(`  Loaded ${books.length} books`);
 
     console.log('Loading movies.csv...');
     const moviesCsv = fs.readFileSync(path.join(dataDir, 'movies.csv'), 'utf-8');
-    const movies: MovieRow[] = csv.parse(moviesCsv, { columns: true, skip_empty_lines: true });
+    const movies: MovieRow[] = csvParse(moviesCsv, { columns: true, skip_empty_lines: true });
     console.log(`  Loaded ${movies.length} movies`);
 
     // Track unique creators and genres
@@ -107,7 +107,8 @@ async function seed() {
 
     // Insert creators
     console.log(`Inserting ${creators.size} creators...`);
-    for (const [{ name, type }] of creators) {
+    for (const [key, value] of creators) {
+      const { name, type } = value;
       try {
         await connection.execute('INSERT IGNORE INTO creators (name, creator_type) VALUES (?, ?)', [name, type]);
       } catch (e) {

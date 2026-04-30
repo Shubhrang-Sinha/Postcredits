@@ -7,6 +7,7 @@ import { genreRoutes } from './routes/genres.js';
 import { ratingRoutes } from './routes/ratings.js';
 import { statsRoutes } from './routes/stats.js';
 import { recommendationRoutes } from './routes/recommendations.js';
+import { creatorRoutes } from './routes/creators.js';
 const app = new Hono();
 app.get('/', (c) => c.json({
     name: 'Postcredits API',
@@ -22,6 +23,7 @@ genreRoutes(app);
 ratingRoutes(app);
 statsRoutes(app);
 recommendationRoutes(app);
+creatorRoutes(app);
 serve({
     fetch: app.fetch,
     port: parseInt(process.env.PORT || '3000'),

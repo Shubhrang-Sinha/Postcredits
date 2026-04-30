@@ -8,9 +8,10 @@ export function bookRoutes(app) {
         const limit = parseInt(c.req.query('limit') || '20');
         const offset = (page - 1) * limit;
         let sql = `
-      SELECT b.book_id, w.work_id, w.title, w.release_year, b.pages,
-             c.name as author_name, c.creator_id as author_id,
-             COALESCE(war.average_rating, 0) as average_rating
+      SELECT b.book_id as bookId, w.work_id as workId, w.title, w.release_year as releaseYear, b.pages,
+             c.name as author, c.creator_id as authorId,
+             COALESCE(war.average_rating, 0) as averageRating,
+             w.created_at as createdAt
       FROM books b
       JOIN works w ON b.work_id = w.work_id
       JOIN creators c ON b.author_id = c.creator_id
@@ -29,7 +30,7 @@ export function bookRoutes(app) {
         for (const book of books) {
             const genres = await query(`SELECT g.name FROM genres g 
          JOIN work_genres wg ON g.genre_id = wg.genre_id 
-         WHERE wg.work_id = ?`, [book.work_id]);
+         WHERE wg.work_id = ?`, [book.workId]);
             book.genres = genres.map((g) => g.name);
         }
         return c.json(books);
@@ -38,9 +39,10 @@ export function bookRoutes(app) {
     app.get('/books/:bookId', async (c) => {
         const bookId = parseInt(c.req.param('bookId'));
         const book = await queryOne(`
-      SELECT b.book_id, w.work_id, w.title, w.release_year, b.pages,
-             c.name as author_name, c.creator_id as author_id,
-             COALESCE(war.average_rating, 0) as average_rating
+      SELECT b.book_id as bookId, w.work_id as workId, w.title, w.release_year as releaseYear, b.pages,
+             c.name as author, c.creator_id as authorId,
+             COALESCE(war.average_rating, 0) as averageRating,
+             w.created_at as createdAt
       FROM books b
       JOIN works w ON b.work_id = w.work_id
       JOIN creators c ON b.author_id = c.creator_id
@@ -52,7 +54,7 @@ export function bookRoutes(app) {
         }
         const genres = await query(`SELECT g.name FROM genres g 
        JOIN work_genres wg ON g.genre_id = wg.genre_id 
-       WHERE wg.work_id = ?`, [book.work_id]);
+       WHERE wg.work_id = ?`, [book.workId]);
         return c.json({ ...book, genres: genres.map((g) => g.name) });
     });
     // Create book (admin only)

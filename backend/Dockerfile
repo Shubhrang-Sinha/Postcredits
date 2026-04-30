@@ -10,6 +10,7 @@ RUN npm ci
 COPY tsconfig.json ./
 COPY src ./src
 COPY data ./data
+copy docker-entrypoint.sh ./
 
 RUN npm run build && npm prune --omit=dev
 

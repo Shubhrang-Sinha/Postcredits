@@ -13,9 +13,8 @@ export function authRoutes(app) {
         const passwordHash = await bcrypt.hash(password, 10);
         try {
             const result = await execute('INSERT INTO users (email, password_hash, display_name) VALUES (?, ?, ?)', [email, passwordHash, displayName || email.split('@')[0]]);
-            const token = jwt.sign({ userId: result.insertId, email }, JWT_SECRET, { expiresIn: EXPIRY });
-            await execute('INSERT INTO sessions (user_id, token, expires_at) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 7 DAY))', [result.insertId, token]);
-            return c.json({ userId: result.insertId, token }, 201);
+            const token = jwt.sign({ userId: result.insertId, email, role: 'user' }, JWT_SECRET, { expiresIn: EXPIRY });
+            return c.json({ userId: result.insertId, email, token }, 201);
         }
         catch (err) {
             if (err.code === 'ER_DUP_ENTRY') {
@@ -39,15 +38,10 @@ export function authRoutes(app) {
             return c.json({ error: 'Invalid credentials' }, 401);
         }
         const token = jwt.sign({ userId: user.user_id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: EXPIRY });
-        await execute('INSERT INTO sessions (user_id, token, expires_at) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 7 DAY))', [user.user_id, token]);
         return c.json({ userId: user.user_id, token, displayName: user.display_name });
     });
-    // Logout
+    // Logout (stateless - just confirm)
     app.post('/auth/logout', async (c) => {
-        const token = c.req.header('Authorization')?.replace('Bearer ', '');
-        if (token) {
-            await execute('DELETE FROM sessions WHERE token = ?', [token]);
-        }
         return c.json({ success: true });
     });
     // Get current user
