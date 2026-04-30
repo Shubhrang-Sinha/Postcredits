@@ -9,8 +9,11 @@ import { ratingRoutes } from './routes/ratings.js';
 import { statsRoutes } from './routes/stats.js';
 import { recommendationRoutes } from './routes/recommendations.js';
 import { creatorRoutes } from './routes/creators.js';
+import { logger } from 'hono/logger'
 
 const app = new Hono();
+
+app.use(logger())
 
 app.use('/*', cors({
   origin: '*',
