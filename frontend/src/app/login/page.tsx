@@ -46,7 +46,7 @@ export default function LoginPage() {
 
           {/* Error Message */}
           {error && (
-            <div className="mb-4 p-3 bg-danger/20 border border-danger/30 rounded-lg text-danger text-sm text-center">
+            <div className="mb-4 p-3 bg-danger/20 border border-danger/30 rounded-lg text-danger text-sm text-center" role="alert" aria-live="polite">
               {error}
             </div>
           )}
@@ -63,7 +63,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-3 bg-bg-primary border border-border-subtle/50 rounded-full text-text-primary placeholder-gray-500 focus:border-accent focus:outline-none transition-colors"
+                className="w-full px-4 py-3 bg-bg-primary border border-border-subtle/50 rounded-full text-text-primary placeholder-gray-500 focus:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-colors"
               />
             </div>
 
@@ -77,14 +77,14 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full px-4 py-3 bg-bg-primary border border-border-subtle/50 rounded-full text-text-primary placeholder-gray-500 focus:border-accent focus:outline-none transition-colors"
+                className="w-full px-4 py-3 bg-bg-primary border border-border-subtle/50 rounded-full text-text-primary placeholder-gray-500 focus:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-colors"
               />
             </div>
 
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 bg-accent-hover text-[#003914] rounded-full font-bold hover:bg-accent transition-colors disabled:opacity-50"
+              className="w-full py-3 bg-accent-hover text-[#003914] rounded-full font-bold hover:bg-accent transition-colors disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none"
             >
               {isLoading ? "Logging in..." : "Login"}
             </button>

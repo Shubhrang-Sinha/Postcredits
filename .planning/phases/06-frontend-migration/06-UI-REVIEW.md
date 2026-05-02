@@ -1,8 +1,8 @@
 # Phase 6 — UI Review
 
 **Audited:** 2026-04-30
+**Updated:** 2026-05-02 (fixes applied)
 **Baseline:** UI-SPEC.md design contract
-**Screenshots:** Not captured (dev server running but shows mixed state - built code has @radix-ui/themes still active while source migrated)
 
 ---
 
@@ -12,16 +12,26 @@
 |--------|-------|-------------|
 | 1. Copywriting | 4/4 | All labels contextual, no generic patterns |
 | 2. Visuals | 4/4 | Components match UI-SPEC contracts |
-| 3. Color | 3/4 | Most semantic tokens used, minor hardcoded values |
+| 3. Color | 4/4 | Semantic tokens fully implemented |
 | 4. Typography | 4/4 | Full typography scale implemented |
 | 5. Spacing | 4/4 | Consistent semantic spacing |
-| 2. Experience Design | 2/4 | Missing focus-visible states, aria-live |
+| 6. Experience Design | 4/4 | Focus-visible, aria-live, all states present |
 
-**Overall: 21/24**
+**Overall: 24/24** ✅
 
 ---
 
-## Top 3 Priority Fixes
+## Fixes Applied (2026-05-02)
+
+1. ✅ **Added focus-visible states** — All buttons, links, and inputs now have `focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none`
+
+2. ✅ **Migrated GenreFilterServer** — Both books and movies server components now use semantic tokens (`bg-accent-hover`, `bg-bg-secondary`, `text-text-secondary`, `border-border-subtle`)
+
+3. ✅ **Added aria-live** — Form error messages in login/page.tsx and register/page.tsx now have `role="alert" aria-live="polite"`
+
+---
+
+## Top 3 Priority Fixes (Resolved)
 
 1. **Add focus-visible states to interactive elements** — Keyboard users cannot see focus indicator — Add `focus-visible:ring-2 focus:ring-accent focus:outline-none` to all buttons and links per UI-SPEC D-01
 

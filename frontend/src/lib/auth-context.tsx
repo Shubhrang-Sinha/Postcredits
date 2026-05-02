@@ -1,5 +1,28 @@
 "use client";
 
+/**
+ * AUTHENTICATION SECURITY TRADEOFFS
+ * 
+ * Current Implementation: localStorage for JWT token storage
+ * 
+ * Tradeoffs (per UI-SPEC D-05/D-06):
+ * 
+ * CURRENT (localStorage):
+ * - Pros: Simple to implement, works without backend cookie support
+ * - Cons: Vulnerable to XSS attacks (JavaScript can access the token)
+ * 
+ * PREFERRED (httpOnly cookies):
+ * - Pros: Immune to XSS, cookies automatically sent with requests
+ * - Cons: Requires backend support for cookie setting, CSRF protection needed
+ * 
+ * Recommendation for MVP:
+ * - Keep localStorage for now (per UI-SPEC)
+ * - Future: Migrate to httpOnly cookies when backend supports it
+ * - Token expiration should be handled server-side with refresh tokens
+ * 
+ * Note: This is documented per D-05/D-06 requirements from UI-SPEC.md
+ */
+
 import {
   createContext,
   useContext,

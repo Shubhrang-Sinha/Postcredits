@@ -13,7 +13,7 @@ export default function GenreFilterServer({ genres }: GenreFilterServerProps) {
   return (
     <div className="flex flex-wrap gap-2 mb-6">
       <Link href="/movies" className="no-underline">
-        <span className="px-4 py-2 rounded-full text-sm font-medium bg-[#1db954] text-[#003914]">
+        <span className="px-4 py-2 rounded-full text-sm font-medium bg-accent-hover text-[#003914] focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none">
           All
         </span>
       </Link>
@@ -23,7 +23,7 @@ export default function GenreFilterServer({ genres }: GenreFilterServerProps) {
           href={`/movies?genre=${genre.genreId}`}
           className="no-underline"
         >
-          <span className="px-4 py-2 rounded-full text-sm font-medium bg-[#261d1d]/60 text-[#bccbb9] border border-[#3d4a3d]/30 hover:bg-[#312828] transition-colors">
+          <span className="px-4 py-2 rounded-full text-sm font-medium bg-bg-secondary/60 text-text-secondary border border-border-subtle/30 hover:bg-bg-tertiary transition-colors focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none">
             {genre.name}
           </span>
         </Link>

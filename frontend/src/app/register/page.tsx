@@ -47,7 +47,7 @@ export default function RegisterPage() {
 
           {/* Error */}
           {error && (
-            <div className="mb-4 p-3 bg-danger/20 border border-danger/30 rounded-lg text-danger text-sm text-center">
+            <div className="mb-4 p-3 bg-danger/20 border border-danger/30 rounded-lg text-danger text-sm text-center" role="alert" aria-live="polite">
               {error}
             </div>
           )}
@@ -64,7 +64,7 @@ export default function RegisterPage() {
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
                 required
-                className="w-full px-4 py-3 bg-bg-primary border border-border-subtle/50 rounded-lg text-text-primary placeholder-gray-500 focus:border-accent focus:outline-none transition-colors"
+                className="w-full px-4 py-3 bg-bg-primary border border-border-subtle/50 rounded-lg text-text-primary placeholder-gray-500 focus:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-colors"
               />
             </div>
 
@@ -78,7 +78,7 @@ export default function RegisterPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-3 bg-bg-primary border border-border-subtle/50 rounded-lg text-text-primary placeholder-gray-500 focus:border-accent focus:outline-none transition-colors"
+                className="w-full px-4 py-3 bg-bg-primary border border-border-subtle/50 rounded-lg text-text-primary placeholder-gray-500 focus:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-colors"
               />
             </div>
 
@@ -92,14 +92,14 @@ export default function RegisterPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full px-4 py-3 bg-bg-primary border border-border-subtle/50 rounded-lg text-text-primary placeholder-gray-500 focus:border-accent focus:outline-none transition-colors"
+                className="w-full px-4 py-3 bg-bg-primary border border-border-subtle/50 rounded-lg text-text-primary placeholder-gray-500 focus:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-colors"
               />
             </div>
 
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 bg-accent-hover text-[#003914] rounded-lg font-bold hover:bg-accent transition-colors disabled:opacity-50"
+              className="w-full py-3 bg-accent-hover text-[#003914] rounded-lg font-bold hover:bg-accent transition-colors disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none"
             >
               {isLoading ? "Creating account..." : "Register"}
             </button>
