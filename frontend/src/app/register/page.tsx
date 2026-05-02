@@ -34,20 +34,21 @@ export default function RegisterPage() {
     <div className="w-full flex items-center justify-center px-4 py-8">
       <div className="w-full">
         <div className="w-full bg-bg-secondary/80 backdrop-blur-xl rounded-2xl border border-border-subtle/30 p-6 sm:p-8 shadow-2xl">
-
           {/* Title */}
           <div className="text-center mb-8">
             <h1 className="text-3xl font-black tracking-tight text-text-primary mb-2">
               Postcredits
             </h1>
-            <p className="text-text-secondary text-sm">
-              Create your account
-            </p>
+            <p className="text-text-secondary text-sm">Create your account</p>
           </div>
 
           {/* Error */}
           {error && (
-            <div className="mb-4 p-3 bg-danger/20 border border-danger/30 rounded-lg text-danger text-sm text-center" role="alert" aria-live="polite">
+            <div
+              className="mb-4 p-3 bg-danger/20 border border-danger/30 rounded-lg text-danger text-sm text-center"
+              role="alert"
+              aria-live="polite"
+            >
               {error}
             </div>
           )}
@@ -117,7 +118,6 @@ export default function RegisterPage() {
               </Link>
             </p>
           </div>
-
         </div>
       </div>
     </div>

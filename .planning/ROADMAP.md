@@ -230,6 +230,31 @@
 
 ---
 
-_Roadmap: 2026-04-30_
-_Phases: 6 (v1 + UI migration)_
-_All v1 requirements covered ✓_
+## Phase 7: Backend PL/SQL Integration
+
+**Goal:** Use actual PL/SQL procedures instead of TypeScript reimplementation.
+
+**Requirements:**
+
+- PL/SQL-01: Recommendations route CALLS `proc_generate_blend`
+- PL/SQL-02: Similarity uses `fn_calculate_similarity`
+- PL/SQL-03: Stats route CALLS `proc_get_spotistats`
+- PL/SQL-04: Add materialized views for performance
+
+**Success Criteria:**
+
+1. Backend routes CALL PL/SQL procedures (not TypeScript)
+2. `fn_calculate_similarity` used for similarity
+3. `proc_generate_blend` used for recommendations
+4. `proc_get_spotistats` used for stats
+5. Build passes
+
+**Plans:**
+
+- [ ] 07-01-PLAN.md — Integrate PL/SQL procedures into backend routes
+
+---
+
+_Roadmap: 2026-05-02_
+_Phases: 7 (v1 + PL/SQL integration)_
+_Phase 6 complete ✓_

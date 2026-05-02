@@ -41,9 +41,7 @@ export default async function BookDetailPage({
     <main className="max-w-[800px] mx-auto px-6">
       <div className="bg-bg-secondary/10 border border-border-subtle/20 rounded-lg p-6">
         <div className="flex flex-col gap-4">
-          <h1 className="text-3xl font-bold text-text-primary">
-            {book.title}
-          </h1>
+          <h1 className="text-3xl font-bold text-text-primary">{book.title}</h1>
 
           <div className="flex gap-4 flex-wrap">
             <span className="text-text-secondary">
@@ -52,9 +50,7 @@ export default async function BookDetailPage({
             <span className="text-text-secondary">
               Year: {book.release_year}
             </span>
-            <span className="text-text-secondary">
-              Pages: {book.pages}
-            </span>
+            <span className="text-text-secondary">Pages: {book.pages}</span>
           </div>
 
           {book.genres && book.genres.length > 0 && (

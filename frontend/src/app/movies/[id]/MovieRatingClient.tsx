@@ -88,9 +88,7 @@ export default function MovieRatingClient({
   return (
     <div className="bg-bg-secondary/10 border border-border-subtle/20 p-4 rounded-lg">
       <div className="flex flex-col gap-3">
-        <h3 className="text-base font-bold text-text-primary">
-          Your Rating:
-        </h3>
+        <h3 className="text-base font-bold text-text-primary">Your Rating:</h3>
 
         <StarRating
           value={userRating}
@@ -99,7 +97,9 @@ export default function MovieRatingClient({
         />
 
         {message && (
-          <p className={`text-sm ${message.includes("Failed") ? "text-danger" : "text-accent"}`}>
+          <p
+            className={`text-sm ${message.includes("Failed") ? "text-danger" : "text-accent"}`}
+          >
             {message}
           </p>
         )}

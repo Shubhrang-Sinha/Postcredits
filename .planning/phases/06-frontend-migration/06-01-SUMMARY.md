@@ -8,11 +8,13 @@
 ## Tasks Completed
 
 ### Task 1: Remove @radix-ui/themes dependency
+
 - Removed `@radix-ui/themes` from `frontend/package.json`
 - Ran `npm install` to update package-lock.json
 - **Verification:** `grep "@radix-ui/themes" package.json` returns no matches
 
 ### Task 2: Add semantic color tokens to Tailwind
+
 - Updated `frontend/src/app/globals.css` @theme block with:
   - `--color-bg-primary: #191111`
   - `--color-bg-secondary: #261d1d`
@@ -29,6 +31,7 @@
 - **Verification:** All semantic tokens present in @theme
 
 ### Task 3: Remove Theme wrapper from layout.tsx
+
 - Removed: `import { Theme } from "@radix-ui/themes"`
 - Removed: `import "@radix-ui/themes/styles.css"`
 - Removed: `<Theme>` wrapper component
@@ -37,11 +40,11 @@
 
 ## Artifacts Created
 
-| Path | Provides |
-|------|----------|
-| `frontend/package.json` | No @radix-ui/themes dependency |
+| Path                           | Provides                        |
+| ------------------------------ | ------------------------------- |
+| `frontend/package.json`        | No @radix-ui/themes dependency  |
 | `frontend/src/app/globals.css` | Semantic color tokens in @theme |
-| `frontend/src/app/layout.tsx` | No Theme wrapper, pure Tailwind |
+| `frontend/src/app/layout.tsx`  | No Theme wrapper, pure Tailwind |
 
 ## Success Criteria Met
 

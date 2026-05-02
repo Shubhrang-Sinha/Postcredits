@@ -35,7 +35,7 @@ export default function StarRating({
           onClick={() => !readonly && onChange?.(star)}
           onMouseEnter={() => !readonly && setHoverValue(star)}
           onMouseLeave={() => !readonly && setHoverValue(0)}
-          className={`${starSize} p-1 bg-transparent border-none ${readonly ? 'cursor-default' : 'cursor-pointer'} ${star <= displayValue ? '' : 'grayscale opacity-40'} hover:scale-110 transition-transform`}
+          className={`${starSize} p-1 bg-transparent border-none ${readonly ? "cursor-default" : "cursor-pointer"} ${star <= displayValue ? "" : "grayscale opacity-40"} hover:scale-110 transition-transform`}
         >
           ⭐
         </button>

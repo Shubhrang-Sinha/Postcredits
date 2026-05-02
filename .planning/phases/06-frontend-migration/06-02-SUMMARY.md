@@ -8,6 +8,7 @@
 ## Tasks Completed
 
 ### Task 1: Migrate Header component
+
 - Updated `frontend/src/components/Header.tsx` to use semantic tokens:
   - `bg-bg-primary/80` for sticky header
   - `text-accent` for logo
@@ -18,6 +19,7 @@
 - **Verification:** Build passes
 
 ### Task 2: Migrate MediaCard component
+
 - Updated `frontend/src/components/MediaCard.tsx`:
   - `bg-bg-secondary/60` for card background
   - `border-border-subtle/30` for borders
@@ -30,6 +32,7 @@
 - **Verification:** Build passes
 
 ### Task 3: Migrate GenreFilter components
+
 - Updated `frontend/src/components/GenreFilter.tsx`:
   - Active: `bg-accent-hover text-[#003914]`
   - Inactive: `bg-bg-secondary/60 text-text-secondary border-border-subtle/30 hover:bg-bg-tertiary`
@@ -38,11 +41,11 @@
 
 ## Artifacts Created
 
-| Path | Provides |
-|------|----------|
-| `frontend/src/components/Header.tsx` | Sticky header with backdrop blur, semantic tokens |
-| `frontend/src/components/MediaCard.tsx` | Media card with hover, scale, shadow states |
-| `frontend/src/components/GenreFilter.tsx` | Genre filter with pill buttons |
+| Path                                      | Provides                                          |
+| ----------------------------------------- | ------------------------------------------------- |
+| `frontend/src/components/Header.tsx`      | Sticky header with backdrop blur, semantic tokens |
+| `frontend/src/components/MediaCard.tsx`   | Media card with hover, scale, shadow states       |
+| `frontend/src/components/GenreFilter.tsx` | Genre filter with pill buttons                    |
 
 ## Success Criteria Met
 

@@ -8,14 +8,14 @@
 
 ## Pillar Scores
 
-| Pillar | Score | Key Finding |
-|--------|-------|-------------|
-| 1. Copywriting | 4/4 | All labels contextual, no generic patterns |
-| 2. Visuals | 4/4 | Components match UI-SPEC contracts |
-| 3. Color | 4/4 | Semantic tokens fully implemented |
-| 4. Typography | 4/4 | Full typography scale implemented |
-| 5. Spacing | 4/4 | Consistent semantic spacing |
-| 6. Experience Design | 4/4 | Focus-visible, aria-live, all states present |
+| Pillar               | Score | Key Finding                                  |
+| -------------------- | ----- | -------------------------------------------- |
+| 1. Copywriting       | 4/4   | All labels contextual, no generic patterns   |
+| 2. Visuals           | 4/4   | Components match UI-SPEC contracts           |
+| 3. Color             | 4/4   | Semantic tokens fully implemented            |
+| 4. Typography        | 4/4   | Full typography scale implemented            |
+| 5. Spacing           | 4/4   | Consistent semantic spacing                  |
+| 6. Experience Design | 4/4   | Focus-visible, aria-live, all states present |
 
 **Overall: 24/24** ✅
 
@@ -48,11 +48,12 @@
 All labels match UI-SPEC copywriting contract:
 
 - Form buttons: "Login", "Register", "Creating account...", "Logging in..." — contextual ✅
-- Empty states: "You haven't rated any items yet" — clear message ✅  
+- Empty states: "You haven't rated any items yet" — clear message ✅
 - Error messages: "Invalid email or password", "Registration failed. Email may already be in use." — specific ✅
 - No generic patterns like "Submit", "Click Here", "Save" found ✅
 
 Files examined:
+
 - `frontend/src/app/login/page.tsx` — Lines 27, 89
 - `frontend/src/app/register/page.tsx` — Lines 28, 104
 - `frontend/src/app/watchlist/page.tsx` — Line 76
@@ -68,6 +69,7 @@ Component structure matches UI-SPEC contracts:
 - Visual hierarchy through size/weight differentiation ✅
 
 Files examined:
+
 - `frontend/src/components/Header.tsx` — Lines 10-14, 57, 72
 - `frontend/src/components/MediaCard.tsx` — Line 26
 - `frontend/src/components/GenreFilter.tsx` — Lines 23-27, 35-39
@@ -77,8 +79,9 @@ Files examined:
 Most semantic tokens used correctly with minor exceptions:
 
 **Semantic tokens present:**
+
 - `bg-bg-primary`, `bg-bg-secondary`, `bg-bg-tertiary` ✅
-- `text-text-primary`, `text-text-secondary` ✅  
+- `text-text-primary`, `text-text-secondary` ✅
 - `border-border-subtle` ✅
 - `text-accent`, `bg-accent-hover`, `bg-accent` ✅
 - `text-danger`, `bg-danger-hover` ✅
@@ -97,6 +100,7 @@ Most semantic tokens used correctly with minor exceptions:
 Count: 21 accent color usages across codebase — within acceptable range per UI-SPEC
 
 Files examined:
+
 - `frontend/src/app/globals.css` — Lines 20-50
 - `frontend/src/components/GenreFilter.tsx` — Uses semantic ✅
 
@@ -111,6 +115,7 @@ Full typography scale per UI-SPEC L-8:
 Note: UI-SPEC declared text-h1 (32px), text-h2 (24px), text-h3 (20px) but actual code uses Tailwind arbitrary values like text-3xl, text-2xl. These map correctly.
 
 Files examined:
+
 - `frontend/src/app/globals.css` — Line 39
 - `frontend/src/components/Header.tsx` — Lines 14, 24, 52
 
@@ -126,38 +131,43 @@ Consistent spacing per UI-SPEC L-7:
 No arbitrary values like [16px] or [24px] found.
 
 Files examined:
+
 - `frontend/src/app/layout.tsx` — Line 21
 - `frontend/src/components/Header.tsx` — Line 11
 
 ### Pillar 6: Experience Design (2/4)
 
 **Loading states present:**
+
 - Form loading: ✅ "Logging in...", "Creating account..." (login/page.tsx:89, register/page.tsx:104)
 - Spinner: ✅ Loading spinners in watchlist/page.tsx:58, stats/page.tsx:76
 - Loading indicators in home page: ✅
 
 **Error states:**
+
 - Form errors handled: ✅ Auth feedback messages
 - No ErrorBoundary found
 
 **Empty states:**
+
 - Watchlist empty: ✅ "You haven't rated any items yet" (watchlist/page.tsx:76)
 
 **CRITICAL GAPS:**
 
-1. **No focus-visible states** ❌ 
+1. **No focus-visible states** ❌
    - UI-SPEC L-11 requires: "focus-visible ring on all interactive elements"
    - Grep found: `focus-visible|focus:ring` returns NO MATCHES
    - Impact: Keyboard users cannot see focus indicator
 
 2. **No aria-live on dynamic content** ❌
-   - UI-SPEC L-14 requires: "aria-live for dynamic content" 
+   - UI-SPEC L-14 requires: "aria-live for dynamic content"
    - Form error messages in login/register lack aria-live
    - Impact: Screen readers miss errors
 
 3. **GenreFilterServer uses hardcoded colors** ❌ (see Color pillar)
 
 Files examined:
+
 - `frontend/src/app/login/page.tsx` — Line 48-52 (error lacks aria-live)
 - `frontend/src/app/register/page.tsx` — Line 49-53 (error lacks aria-live)
 - All Button components — No focus-visible classes

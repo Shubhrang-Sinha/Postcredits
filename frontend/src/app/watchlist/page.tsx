@@ -66,14 +66,15 @@ function WatchlistContent() {
 
   return (
     <main className="max-w-[1400px] mx-auto px-6">
-      <h1 className="text-3xl font-bold text-text-primary mb-1">
-        Watchlist
-      </h1>
+      <h1 className="text-3xl font-bold text-text-primary mb-1">Watchlist</h1>
       <p className="text-text-secondary mb-6">{ratings.length} rated items</p>
 
       {ratings.length === 0 ? (
         <div className="p-8 text-center text-text-secondary">
-          <p>You haven't rated any items yet. Start browsing to add to your watchlist!</p>
+          <p>
+            You haven't rated any items yet. Start browsing to add to your
+            watchlist!
+          </p>
         </div>
       ) : (
         <div className="flex flex-wrap gap-4">

@@ -46,7 +46,11 @@ export default function LoginPage() {
 
           {/* Error Message */}
           {error && (
-            <div className="mb-4 p-3 bg-danger/20 border border-danger/30 rounded-lg text-danger text-sm text-center" role="alert" aria-live="polite">
+            <div
+              className="mb-4 p-3 bg-danger/20 border border-danger/30 rounded-lg text-danger text-sm text-center"
+              role="alert"
+              aria-live="polite"
+            >
               {error}
             </div>
           )}

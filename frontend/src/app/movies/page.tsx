@@ -1,7 +1,7 @@
 import MediaCard from "@/components/MediaCard";
 import GenreFilterServer from "./GenreFilterServer";
 
-export const dynamic = 'force-static';
+export const dynamic = "force-static";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 

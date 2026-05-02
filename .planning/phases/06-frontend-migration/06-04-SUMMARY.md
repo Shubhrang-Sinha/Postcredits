@@ -8,6 +8,7 @@
 ## Tasks Completed
 
 ### Task 1: Document auth security tradeoffs
+
 - Added detailed security documentation to `frontend/src/lib/auth-context.tsx`:
   - Explains current localStorage implementation
   - Documents httpOnly cookie alternatives
@@ -17,6 +18,7 @@
 - **Verification:** `grep -q "httpOnly\|tradeoff\|XSS"` returns matches
 
 ### Task 2: Add accessibility to login page
+
 - Updated `frontend/src/app/login/page.tsx`:
   - Added `focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none` to inputs
   - Added `focus-visible` to submit button
@@ -25,6 +27,7 @@
 - **Verification:** Build passes
 
 ### Task 3: Add accessibility to register page
+
 - Updated `frontend/src/app/register/page.tsx`:
   - Added `focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none` to all inputs
   - Added `focus-visible` to submit button
@@ -33,6 +36,7 @@
 - **Verification:** Build passes
 
 ### Task 4: Visual verification (HUMAN CHECKPOINT)
+
 - **Required:** User to visually verify the migration
 - **How to verify:**
   1. Run: `cd frontend && npm run dev`
@@ -46,11 +50,11 @@
 
 ## Artifacts Created
 
-| Path | Provides |
-|------|----------|
-| `frontend/src/lib/auth-context.tsx` | Auth with localStorage, documented tradeoffs |
-| `frontend/src/app/login/page.tsx` | Login with focus states, aria attributes |
-| `frontend/src/app/register/page.tsx` | Register with focus states, aria attributes |
+| Path                                 | Provides                                     |
+| ------------------------------------ | -------------------------------------------- |
+| `frontend/src/lib/auth-context.tsx`  | Auth with localStorage, documented tradeoffs |
+| `frontend/src/app/login/page.tsx`    | Login with focus states, aria attributes     |
+| `frontend/src/app/register/page.tsx` | Register with focus states, aria attributes  |
 
 ## Success Criteria Met
 

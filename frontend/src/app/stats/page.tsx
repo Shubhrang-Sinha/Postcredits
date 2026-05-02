@@ -99,10 +99,10 @@ function StatsContent() {
 
   return (
     <main className="max-w-[1400px] mx-auto px-6">
-      <h1 className="text-3xl font-bold text-text-primary mb-1">
-        Spotistats
-      </h1>
-      <p className="text-text-secondary mb-6">Your viewing and reading statistics</p>
+      <h1 className="text-3xl font-bold text-text-primary mb-1">Spotistats</h1>
+      <p className="text-text-secondary mb-6">
+        Your viewing and reading statistics
+      </p>
 
       <div className="mt-4">
         <div className="flex gap-1 border-b border-border-subtle/30">
