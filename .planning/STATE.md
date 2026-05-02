@@ -32,6 +32,7 @@ See: .planning/PROJECT.md
 | 3: Ratings & Triggers | ✓ Complete | Rating system, rate_media procedure, triggers |
 | 4: Discovery Engine   | ✓ Complete | Blend recommendations, Spotistats             |
 | 5: Frontend           | ✓ Complete | Next.js + Tailwind + Radix - 6 plans executed |
+| 6: Frontend Migration | ✓ Planned  | Tailwind semantic tokens - 4 plans ready      |
 
 ## Active Context
 

@@ -1,6 +1,8 @@
 import MediaCard from "@/components/MediaCard";
 import GenreFilterServer from "./GenreFilterServer";
 
+export const dynamic = 'force-static';
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
 interface Book {
@@ -45,9 +47,10 @@ async function getGenres(): Promise<Genre[]> {
 export default async function BooksPage({
   searchParams,
 }: {
-  searchParams: { genre?: string };
+  searchParams: Promise<{ genre?: string }>;
 }) {
-  const genreId = searchParams.genre ? parseInt(searchParams.genre) : undefined;
+  const { genre } = await searchParams;
+  const genreId = genre ? parseInt(genre) : undefined;
   const [books, genres] = await Promise.all([getBooks(genreId), getGenres()]);
 
   const bookGenres = genres.filter(

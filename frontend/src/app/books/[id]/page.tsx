@@ -1,23 +1,23 @@
 import { notFound } from "next/navigation";
 import StarRating from "@/components/StarRating";
-import MovieRatingClient from "./MovieRatingClient";
+import BookRatingClient from "./BookRatingClient";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
-interface Movie {
-  movie_id: number;
+interface Book {
+  book_id: number;
   work_id: number;
   title: string;
   release_year: number;
-  duration: number;
-  director_name: string;
+  pages: number;
+  author_name: string;
   average_rating: number;
   genres: string[];
 }
 
-async function getMovie(id: string): Promise<Movie | null> {
+async function getBook(id: string): Promise<Book | null> {
   try {
-    const response = await fetch(`${API_BASE_URL}/movies/${id}`);
+    const response = await fetch(`${API_BASE_URL}/books/${id}`);
     if (!response.ok) return null;
     return response.json();
   } catch {
@@ -25,39 +25,15 @@ async function getMovie(id: string): Promise<Movie | null> {
   }
 }
 
-async function getUserRating(
-  workId: number,
-): Promise<{ rating_id: number; score: number } | null> {
-  try {
-    const token = localStorage.getItem("auth_token");
-    if (!token) return null;
-
-    const response = await fetch(`${API_BASE_URL}/ratings?workId=${workId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!response.ok) return null;
-    const data = await response.json();
-    return data[0] || null;
-  } catch {
-    return null;
-  }
-}
-
-function formatDuration(minutes: number): string {
-  const hours = Math.floor(minutes / 60);
-  const mins = minutes % 60;
-  return hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
-}
-
-export default async function MovieDetailPage({
+export default async function BookDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const movie = await getMovie(id);
+  const book = await getBook(id);
 
-  if (!movie) {
+  if (!book) {
     notFound();
   }
 
@@ -66,24 +42,24 @@ export default async function MovieDetailPage({
       <div className="bg-bg-secondary/10 border border-border-subtle/20 rounded-lg p-6">
         <div className="flex flex-col gap-4">
           <h1 className="text-3xl font-bold text-text-primary">
-            {movie.title}
+            {book.title}
           </h1>
 
           <div className="flex gap-4 flex-wrap">
             <span className="text-text-secondary">
-              Director: {movie.director_name}
+              Author: {book.author_name}
             </span>
             <span className="text-text-secondary">
-              Year: {movie.release_year}
+              Year: {book.release_year}
             </span>
             <span className="text-text-secondary">
-              Duration: {formatDuration(movie.duration)}
+              Pages: {book.pages}
             </span>
           </div>
 
-          {movie.genres && movie.genres.length > 0 && (
+          {book.genres && book.genres.length > 0 && (
             <div className="flex gap-2 flex-wrap">
-              {movie.genres.map((genre) => (
+              {book.genres.map((genre) => (
                 <span key={genre} className="text-text-secondary text-sm">
                   {genre}
                 </span>
@@ -96,14 +72,14 @@ export default async function MovieDetailPage({
           <div className="flex justify-between items-center">
             <span className="text-lg">Average Rating:</span>
             <StarRating
-              value={Math.round(movie.average_rating || 0)}
+              value={Math.round(book.average_rating || 0)}
               readonly
               size="medium"
             />
           </div>
 
           <div className="mt-4">
-            <MovieRatingClient workId={movie.work_id} />
+            <BookRatingClient workId={book.work_id} />
           </div>
         </div>
       </div>

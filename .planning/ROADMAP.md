@@ -223,10 +223,10 @@
 
 **Plans:**
 
-- [ ] 06-01-PLAN.md — Foundation: Remove @radix-ui/themes, configure semantic tokens
-- [ ] 06-02-PLAN.md — Core Components: Header, MediaCard, GenreFilter
-- [ ] 06-03-PLAN.md — Complex Components: StarRating, Carousel, StatsChart, API
-- [ ] 06-04-PLAN.md — Auth & Accessibility: Tradeoffs documentation, a11y verification
+- [x] 06-01-PLAN.md — Foundation: Remove @radix-ui/themes, configure semantic tokens
+- [x] 06-02-PLAN.md — Core Components: Header, MediaCard, GenreFilter
+- [x] 06-03-PLAN.md — Complex Components: StarRating, Carousel, StatsChart, API
+- [x] 06-04-PLAN.md — Auth & Accessibility: Tradeoffs documentation, a11y verification
 
 ---
 

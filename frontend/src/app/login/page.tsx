@@ -34,7 +34,7 @@ export default function LoginPage() {
       <div className="absolute inset-0 bg-gradient-to-br from-bg-primary via-bg-secondary to-bg-primary" />
 
       {/* Login Card */}
-      <div className="relative w-full max-w-sm">
+      <div className="relative w-full">
         <div className="bg-bg-secondary/80 backdrop-blur-xl rounded-2xl border border-border-subtle/30 p-8 shadow-2xl">
           {/* Logo/Title */}
           <div className="text-center mb-8">

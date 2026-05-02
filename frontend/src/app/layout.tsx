@@ -18,7 +18,9 @@ export default function RootLayout({
       <body className="min-h-screen bg-bg-primary text-text-primary font-[family-name:var(--font-family)]">
         <AuthProvider>
           <Header />
-          {children}
+          <main className="min-h-[calc(100vh-64px)] flex items-center justify-center">
+            {children}
+          </main>
         </AuthProvider>
       </body>
     </html>
