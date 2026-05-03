@@ -251,7 +251,7 @@
 
 **Plans:**
 
-- [ ] 07-01-PLAN.md — Integrate PL/SQL procedures into backend routes
+- [x] 07-01-PLAN.md — Integrate PL/SQL procedures into backend routes
 
 ---
 
