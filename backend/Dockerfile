@@ -28,16 +28,12 @@ RUN npm ci --omit=dev
 
 # Copy built output + runtime assets
 COPY --from=build /app/dist ./dist
-COPY data ./data
 COPY sql ./sql
-COPY docker-entrypoint.sh /docker-entrypoint.sh
-
-RUN chmod +x /docker-entrypoint.sh
+COPY data ./data
 
 USER hono
 
 ENV NODE_ENV=production
 EXPOSE 3000
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["api"]
+CMD ["node", "dist/index.js"]

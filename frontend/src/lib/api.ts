@@ -1,14 +1,6 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
-interface ApiResponse<T> {
-  data?: T;
-  error?: string;
-}
-
-async function apiClient<T>(
-  endpoint: string,
-  options: RequestInit = {},
-): Promise<ApiResponse<T>> {
+async function fetchFromAPI(endpoint: string, options: RequestInit = {}) {
   const url = `${API_BASE_URL}${endpoint}`;
 
   // Get token from localStorage
@@ -21,27 +13,32 @@ async function apiClient<T>(
     ...options.headers,
   };
 
-  try {
-    const response = await fetch(url, { ...options, headers });
-    const data = await response.json();
+  const response = await fetch(url, { ...options, headers });
 
-    if (!response.ok) {
-      return { error: data.error || "Request failed" };
-    }
-
-    return { data };
-  } catch (error) {
-    return { error: "Network error" };
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || "Request failed");
   }
+
+  return response.json();
 }
 
-export const api = {
-  get: <T>(endpoint: string) => apiClient<T>(endpoint),
-  post: <T>(endpoint: string, body: unknown) =>
-    apiClient<T>(endpoint, { method: "POST", body: JSON.stringify(body) }),
-  put: <T>(endpoint: string, body: unknown) =>
-    apiClient<T>(endpoint, { method: "PUT", body: JSON.stringify(body) }),
-  delete: <T>(endpoint: string) => apiClient<T>(endpoint, { method: "DELETE" }),
-};
+export const getPopularMovies = (limit: number) => fetchFromAPI(`/movies?limit=${limit}`);
+export const getPopularBooks = (limit: number) => fetchFromAPI(`/books?limit=${limit}`);
 
-export default api;
+export const getMovieRecommendations = (limit: number) => fetchFromAPI(`/recommendations/blend?type=movie&limit=${limit}`);
+export const getBookRecommendations = (limit: number) => fetchFromAPI(`/recommendations/blend?type=book&limit=${limit}`);
+
+export const getTrendingMovies = (limit: number) => fetchFromAPI(`/movies?limit=${limit}`);
+export const getTrendingBooks = (limit: number) => fetchFromAPI(`/books?limit=${limit}`);
+
+export const loginUser = (credentials: object) => fetchFromAPI('/auth/login', {
+  method: 'POST',
+  body: JSON.stringify(credentials)
+});
+
+export const registerUser = (userInfo: object) => fetchFromAPI('/auth/register', {
+  method: 'POST',
+  body: JSON.stringify(userInfo)
+});
+

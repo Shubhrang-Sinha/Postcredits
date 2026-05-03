@@ -30,7 +30,7 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import api from "./api";
+import { loginUser, registerUser } from "./api";
 
 interface User {
   userId: number;
@@ -65,31 +65,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const storedUser = localStorage.getItem("auth_user");
 
     if (storedToken && storedUser) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setToken(storedToken);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setUser(JSON.parse(storedUser));
     }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsLoading(false);
   }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
-    const result = await api.post<{
-      token: string;
-      userId: number;
-      displayName?: string;
-    }>("/auth/login", { email, password });
-
-    if (result.data && result.data.token) {
-      const { token, userId, displayName } = result.data;
-      localStorage.setItem("auth_token", token);
-      localStorage.setItem(
-        "auth_user",
-        JSON.stringify({ userId, email, displayName }),
-      );
-      setToken(token);
-      setUser({ userId, email, displayName });
-      return true;
+    try {
+      const result = await loginUser({ email, password });
+      if (result && result.token) {
+        const { token, userId, displayName } = result;
+        localStorage.setItem("auth_token", token);
+        localStorage.setItem(
+          "auth_user",
+          JSON.stringify({ userId, email, displayName }),
+        );
+        setToken(token);
+        setUser({ userId, email, displayName });
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Login failed:", error);
+      return false;
     }
-    return false;
   };
 
   const register = async (
@@ -97,23 +100,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     password: string,
     displayName: string,
   ): Promise<boolean> => {
-    const result = await api.post<{ token: string; userId: number }>(
-      "/auth/register",
-      { email, password, displayName },
-    );
-
-    if (result.data && result.data.token) {
-      const { token, userId } = result.data;
-      localStorage.setItem("auth_token", token);
-      localStorage.setItem(
-        "auth_user",
-        JSON.stringify({ userId, email, displayName }),
-      );
-      setToken(token);
-      setUser({ userId, email, displayName });
-      return true;
+    try {
+      const result = await registerUser({ email, password, displayName });
+      if (result && result.token) {
+        const { token, userId } = result;
+        localStorage.setItem("auth_token", token);
+        localStorage.setItem(
+          "auth_user",
+          JSON.stringify({ userId, email, displayName }),
+        );
+        setToken(token);
+        setUser({ userId, email, displayName });
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Registration failed:", error);
+      return false;
     }
-    return false;
   };
 
   const logout = () => {

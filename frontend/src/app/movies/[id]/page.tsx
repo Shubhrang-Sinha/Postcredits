@@ -25,23 +25,7 @@ async function getMovie(id: string): Promise<Movie | null> {
   }
 }
 
-async function getUserRating(
-  workId: number,
-): Promise<{ rating_id: number; score: number } | null> {
-  try {
-    const token = localStorage.getItem("auth_token");
-    if (!token) return null;
 
-    const response = await fetch(`${API_BASE_URL}/ratings?workId=${workId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!response.ok) return null;
-    const data = await response.json();
-    return data[0] || null;
-  } catch {
-    return null;
-  }
-}
 
 function formatDuration(minutes: number): string {
   const hours = Math.floor(minutes / 60);

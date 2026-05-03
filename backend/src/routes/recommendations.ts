@@ -39,34 +39,24 @@ export function recommendationRoutes(app: Hono) {
     const limit = parseInt(c.req.query("limit") || "10");
 
     // Use PL/SQL procedure proc_generate_blend
-    // Note: MySQL CALL may return multiple result sets
-    await query(`CALL proc_generate_blend(?, ?, ?)`, [
+    // Note: MySQL CALL returns an array of result sets. The results we want are in the first result set.
+    const resultSets = await query(`CALL proc_generate_blend(?, ?, ?)`, [
       user.userId,
       type,
       limit,
     ]);
 
-    // Fetch the recommendations (procedure may populate a temp table or return results)
-    // For now, use the same logic but document that PL/SQL is being used
-    // TODO: Parse procedure results properly based on how MySQL returns them
+    // mysql2 returns [ [results], [OkPacket] ] for stored procedures
+    const recommendations = resultSets[0] || [];
 
-    // Fallback: Get recommendations using the procedure-enhanced query
-    const recommendations = await query(
-      `
-      SELECT 
-        w.work_id as workId,
-        w.title,
-        w.work_type as type,
-        COALESCE(war.average_rating, 0) as averageRating
-      FROM works w
-      LEFT JOIN work_avg_rating war ON w.work_id = war.work_id
-      WHERE w.work_type = ?
-      ORDER BY war.average_rating DESC
-      LIMIT ?
-      `,
-      [type === "all" ? "movie" : type, limit],
+    return c.json(
+      recommendations.map((row: any) => ({
+        workId: row.work_id,
+        title: row.title,
+        averageRating: row.average_rating,
+        similarity: row.similarity,
+        sourceUserId: row.source_user_id,
+      })),
     );
-
-    return c.json(recommendations);
   });
 }

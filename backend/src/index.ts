@@ -1,6 +1,8 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
+import { logger } from "hono/logger";
+
 import { authRoutes } from "./routes/auth.js";
 import { bookRoutes } from "./routes/books.js";
 import { movieRoutes } from "./routes/movies.js";
@@ -9,13 +11,12 @@ import { ratingRoutes } from "./routes/ratings.js";
 import { statsRoutes } from "./routes/stats.js";
 import { recommendationRoutes } from "./routes/recommendations.js";
 import { creatorRoutes } from "./routes/creators.js";
-import { logger } from "hono/logger";
-import { seed, needsSeed, migrate } from "./db/seed.js";
+
+import { migrate, seed, needsSeed } from "./db/seed.js";
 
 const app = new Hono();
 
 app.use(logger());
-
 app.use(
   "/*",
   cors({
@@ -33,7 +34,7 @@ app.get("/", (c) =>
 
 app.get("/health", (c) => c.json({ status: "ok" }));
 
-// Mount routes
+// Routes
 authRoutes(app);
 bookRoutes(app);
 movieRoutes(app);
@@ -43,27 +44,39 @@ statsRoutes(app);
 recommendationRoutes(app);
 creatorRoutes(app);
 
-// Auto-migrate and seed on first run
-(async () => {
+async function start() {
+  // Migrations (optional)
   try {
     console.log("Running migrations...");
     await migrate();
+    console.log("Migrations completed");
+  } catch (err) {
+    console.error("Migration failed (continuing):", err);
+  }
+
+  // Seeding (optional)
+  try {
     if (await needsSeed()) {
-      console.log("Database empty, running seed...");
+      console.log("Seeding database...");
       await seed();
-      console.log("Database ready!");
+      console.log("Seeding completed");
     }
   } catch (err) {
-    console.error("Startup seed failed:", err);
+    console.error("Seeding failed (continuing):", err);
   }
-})();
 
-serve(
-  {
-    fetch: app.fetch,
-    port: parseInt(process.env.PORT || "3000"),
-  },
-  (info) => {
-    console.log(`Server running on http://localhost:${info.port}`);
-  },
-);
+  // Start server
+  const port = parseInt(process.env.PORT || "3000");
+
+  serve(
+    {
+      fetch: app.fetch,
+      port,
+    },
+    (info) => {
+      console.log(`Server running on http://localhost:${info.port}`);
+    },
+  );
+}
+
+start();

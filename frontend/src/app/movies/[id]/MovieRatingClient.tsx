@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useAuth } from "@/lib/auth-context";
-import api from "@/lib/api";
+
 import StarRating from "@/components/StarRating";
 
 interface MovieRatingClientProps {

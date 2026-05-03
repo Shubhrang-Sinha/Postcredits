@@ -1,25 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import { Recommendation } from "@/lib/types";
 import MediaCard from "./MediaCard";
-
-interface Recommendation {
-  workId: number;
-  title: string;
-  type: string;
-  averageRating: number;
-  releaseYear?: number;
-  similarity?: number;
-}
 
 interface RecommendationCarouselProps {
   title: string;
   recommendations: Recommendation[];
+  type: "movie" | "book";
 }
 
 export default function RecommendationCarousel({
   title,
   recommendations,
+  type,
 }: RecommendationCarouselProps) {
   const [index, setIndex] = useState(0);
   const itemsPerPage = 4;
@@ -67,7 +61,7 @@ export default function RecommendationCarousel({
             title={rec.title}
             year={rec.releaseYear}
             rating={rec.averageRating}
-            type={rec.type as "movie" | "book"}
+            type={type}
           />
         ))}
       </div>

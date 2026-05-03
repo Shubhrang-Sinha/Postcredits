@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
-import MediaCard from "@/components/MediaCard";
+import MediaCard from "@/components/media/MediaCard";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
@@ -72,8 +72,7 @@ function WatchlistContent() {
       {ratings.length === 0 ? (
         <div className="p-8 text-center text-text-secondary">
           <p>
-            You haven't rated any items yet. Start browsing to add to your
-            watchlist!
+            You haven&apos;t rated any items yet. Start browsing to add to your watchlist!
           </p>
         </div>
       ) : (
