@@ -1,31 +1,19 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { notFound } from "next/navigation";
 import StarRating from "@/components/StarRating";
-import MovieRatingClient from "./MovieRatingClient";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
 interface Movie {
-  movie_id: number;
-  work_id: number;
+  movieId: number;
+  workId: number;
   title: string;
-  release_year: number;
+  releaseYear: number;
   duration: number;
-  director_name: string;
-  average_rating: number;
+  director: string;
+  averageRating: string;
   genres: string[];
 }
-
-async function getMovie(id: string): Promise<Movie | null> {
-  try {
-    const response = await fetch(`${API_BASE_URL}/movies/${id}`);
-    if (!response.ok) return null;
-    return response.json();
-  } catch {
-    return null;
-  }
-}
-
-
 
 function formatDuration(minutes: number): string {
   const hours = Math.floor(minutes / 60);
@@ -33,13 +21,61 @@ function formatDuration(minutes: number): string {
   return hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
 }
 
-export default async function MovieDetailPage({
+export default function MovieDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = await params;
-  const movie = await getMovie(id);
+  const [movie, setMovie] = useState<Movie | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [resolvedParams, setResolvedParams] = useState<{ id: string } | null>(null);
+
+  useEffect(() => {
+    params.then((p) => setResolvedParams(p));
+  }, [params]);
+
+  useEffect(() => {
+    if (!resolvedParams) return;
+
+    const fetchMovie = async () => {
+      try {
+        const token =
+          typeof window !== "undefined"
+            ? localStorage.getItem("auth_token")
+            : null;
+        const headers: HeadersInit = token
+          ? { Authorization: `Bearer ${token}` }
+          : {};
+
+        const response = await fetch(
+          `/api/movies/${resolvedParams.id}`,
+          { headers }
+        );
+        if (!response.ok) {
+          setMovie(null);
+        } else {
+          const data = await response.json();
+          setMovie(data);
+        }
+      } catch {
+        setMovie(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMovie();
+  }, [resolvedParams]);
+
+  if (loading) {
+    return (
+      <main className="max-w-[800px] mx-auto px-6">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <p className="text-text-secondary">Loading...</p>
+        </div>
+      </main>
+    );
+  }
 
   if (!movie) {
     notFound();
@@ -55,10 +91,10 @@ export default async function MovieDetailPage({
 
           <div className="flex gap-4 flex-wrap">
             <span className="text-text-secondary">
-              Director: {movie.director_name}
+              Director: {movie.director}
             </span>
             <span className="text-text-secondary">
-              Year: {movie.release_year}
+              Year: {movie.releaseYear}
             </span>
             <span className="text-text-secondary">
               Duration: {formatDuration(movie.duration)}
@@ -80,14 +116,10 @@ export default async function MovieDetailPage({
           <div className="flex justify-between items-center">
             <span className="text-lg">Average Rating:</span>
             <StarRating
-              value={Math.round(movie.average_rating || 0)}
+              value={Math.round(parseFloat(movie.averageRating) || 0)}
               readonly
               size="medium"
             />
-          </div>
-
-          <div className="mt-4">
-            <MovieRatingClient workId={movie.work_id} />
           </div>
         </div>
       </div>

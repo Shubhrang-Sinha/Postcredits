@@ -57,8 +57,7 @@ DETERMINISTIC
 BEGIN
     DECLARE v_profile VARCHAR(1000) DEFAULT '';
     
-    SELECT GROUP_CONCAT(
-        CONCAT(g.name, ':', COUNT(*))
+    SELECT GROUP_CONCAT(CONCAT(g.name, ':', COUNT(*)) ORDER BY COUNT(*) DESC SEPARATOR ',')
     INTO v_profile
     FROM ratings r
     JOIN works w ON r.work_id = w.work_id
@@ -67,7 +66,6 @@ BEGIN
     WHERE r.user_id = p_user_id 
     AND w.work_type = p_work_type
     GROUP BY g.name
-    ORDER BY COUNT(*) DESC
     LIMIT 5;
     
     RETURN COALESCE(v_profile, 'No ratings yet');
@@ -75,6 +73,7 @@ END$$
 
 -- ==================== Procedure: Calculate Blend Recommendations ====================
 -- Generates personalized recommendations based on similar users
+-- Falls back to popular/trending for new users with no ratings
 -- Uses CURSORS as required by instructor
 CREATE PROCEDURE proc_generate_blend(
     IN p_user_id INT,
@@ -85,10 +84,8 @@ BEGIN
     DECLARE v_done INT DEFAULT FALSE;
     DECLARE v_similar_user_id INT;
     DECLARE v_similarity DECIMAL(5,2);
-    DECLARE v_work_id INT;
-    DECLARE v_title VARCHAR(255);
-    DECLARE v_avg_rating DECIMAL(3,2);
     DECLARE v_count INT DEFAULT 0;
+    DECLARE v_result_count INT DEFAULT 0;
     
     -- Cursor to find similar users
     DECLARE user_cursor CURSOR FOR
@@ -109,43 +106,58 @@ BEGIN
         similarity DECIMAL(5,2)
     );
     
-    OPEN user_cursor;
+    -- Check if user has any ratings
+    SELECT COUNT(*) INTO v_result_count FROM ratings WHERE user_id = p_user_id;
     
-    user_loop: LOOP
-        FETCH user_cursor INTO v_similar_user_id;
-        IF v_done = 1 THEN
-            LEAVE user_loop;
-        END IF;
-        
-        -- Get similarity score
-        SET v_similarity = fn_calculate_similarity(p_user_id, v_similar_user_id);
-        
-        -- Skip users with low similarity
-        IF v_similarity < 30 THEN
-            ITERATE user_loop;
-        END IF;
-        
-        -- Find highly-rated works from similar user that current user hasn't rated
+    -- For users with no ratings, return popular works instead
+    IF v_result_count = 0 THEN
         INSERT INTO blend_results
-        SELECT w.work_id, w.title, COALESCE(wr.average_rating, 0), v_similar_user_id, v_similarity
+        SELECT w.work_id, w.title, COALESCE(wr.average_rating, 0), NULL, 0
         FROM works w
-        JOIN ratings r ON w.work_id = r.work_id AND r.user_id = v_similar_user_id AND r.score >= 4
         LEFT JOIN work_avg_rating wr ON w.work_id = wr.work_id
         WHERE w.work_type = p_work_type
-        AND NOT EXISTS (
-            SELECT 1 FROM ratings r2 
-            WHERE r2.user_id = p_user_id AND r2.work_id = w.work_id
-        )
-        ORDER BY v_similarity * r.score DESC
-        LIMIT 5;
+        ORDER BY wr.average_rating DESC, RAND()
+        LIMIT p_limit;
+    ELSE
+        -- Normal blend logic for users with ratings
+        OPEN user_cursor;
         
-        SET v_count = v_count + 1;
-        IF v_count >= p_limit THEN
-            LEAVE user_loop;
-        END IF;
-    END LOOP;
-    
-    CLOSE user_cursor;
+        user_loop: LOOP
+            FETCH user_cursor INTO v_similar_user_id;
+            IF v_done = 1 THEN
+                LEAVE user_loop;
+            END IF;
+            
+            -- Get similarity score
+            SET v_similarity = fn_calculate_similarity(p_user_id, v_similar_user_id);
+            
+            -- Skip users with low similarity
+            IF v_similarity < 30 THEN
+                ITERATE user_loop;
+            END IF;
+            
+            -- Find highly-rated works from similar user that current user hasn't rated
+            INSERT INTO blend_results
+            SELECT w.work_id, w.title, COALESCE(wr.average_rating, 0), v_similar_user_id, v_similarity
+            FROM works w
+            JOIN ratings r ON w.work_id = r.work_id AND r.user_id = v_similar_user_id AND r.score >= 4
+            LEFT JOIN work_avg_rating wr ON w.work_id = wr.work_id
+            WHERE w.work_type = p_work_type
+            AND NOT EXISTS (
+                SELECT 1 FROM ratings r2 
+                WHERE r2.user_id = p_user_id AND r2.work_id = w.work_id
+            )
+            ORDER BY v_similarity * r.score DESC
+            LIMIT 5;
+            
+            SET v_count = v_count + 1;
+            IF v_count >= p_limit THEN
+                LEAVE user_loop;
+            END IF;
+        END LOOP;
+        
+        CLOSE user_cursor;
+    END IF;
     
     -- Return results
     SELECT * FROM blend_results 
